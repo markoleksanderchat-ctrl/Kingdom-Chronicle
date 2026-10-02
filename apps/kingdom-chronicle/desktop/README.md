@@ -41,12 +41,12 @@ The command checks locked dependencies, both type checks, lint and tests, compil
 Only after explicit production authorization:
 
 ```powershell
-npm run release -- --resume release/0.3.9 --publish
+npm run release -- --resume release/0.3.10 --publish
 ```
 
-Set `KINGDOM_RELEASE_UPLOAD_TOKEN` in the publishing process only, matching the host's `RELEASE_UPLOAD_TOKEN` server secret. The existing host remains `https://kingdom-chronicle-prototype.markoleksanderchat.chatgpt.site`; its new routes and existing `RELEASES` R2 binding are deployed. The generic feed is `/api/desktop-updates/stable/latest.yml`. NSIS **0.3.9** and legacy compatibility bridge **0.3.5** are published. The command above resumes that immutable release; for a future release, build a new version first and substitute its directory. Publisher credentials are not stored permanently on this PC.
+Set `KINGDOM_RELEASE_UPLOAD_TOKEN` in the publishing process only, matching the host's `RELEASE_UPLOAD_TOKEN` server secret. The existing host remains `https://kingdom-chronicle-prototype.markoleksanderchat.chatgpt.site`; its new routes and existing `RELEASES` R2 binding are deployed. The generic feed is `/api/desktop-updates/stable/latest.yml`. NSIS **0.3.10** and legacy compatibility bridge **0.3.5** are published. The command above resumes that immutable release; for a future release, build a new version first and substitute its directory. Publisher credentials are not stored permanently on this PC.
 
-Clean installs and manual recovery use `/api/desktop-updates/stable/0.3.9/KingdomChronicle-0.3.9-Setup.exe`. The old `/api/desktop-release` endpoint deliberately serves the compatibility bridge and is not the full NSIS recovery installer.
+Clean installs and manual recovery use `/api/desktop-updates/stable/0.3.10/KingdomChronicle-0.3.10-Setup.exe`. The old `/api/desktop-release` endpoint deliberately serves the compatibility bridge and is not the full NSIS recovery installer.
 
 Uploads use resumable multipart sessions, immutable version namespaces and remote SHA512 byte verification. The stable pointer is committed last with an R2 conditional write. `--resume <directory> --publish` retries failed network stages without rebuilding successful artifacts, including an unknown outcome after metadata commit. Never reuse a published version for different bytes. Keep previous installers and blockmaps available on the host; differential downloads need them. Only installed-client tests can measure a real differential download size.
 
@@ -58,7 +58,7 @@ The installer grants Windows restricted application processes read/execute acces
 
 ## One-time Squirrel migration
 
-The existing custom installer would overwrite an NSIS executable with its C# launcher. Therefore legacy clients first receive a compatibility bridge that already uses the new updater. The published versions are bridge **0.3.5**, then the latest NSIS release (**0.3.9**). The bridge's Electron executable is named `KingdomChronicleRuntime.exe`; the special `electron.exe` basename makes Electron treat it as an unpackaged development build and disables installed updates. `npm run release -- --migration` prepares a new pair using two explicit patch increments; ordinary future NSIS releases do not need another bridge.
+The existing custom installer would overwrite an NSIS executable with its C# launcher. Therefore legacy clients first receive a compatibility bridge that already uses the new updater. The published versions are bridge **0.3.5**, then the latest NSIS release (**0.3.10**). The bridge's Electron executable is named `KingdomChronicleRuntime.exe`; the special `electron.exe` basename makes Electron treat it as an unpackaged development build and disables installed updates. `npm run release -- --migration` prepares a new pair using two explicit patch increments; ordinary future NSIS releases do not need another bridge.
 
 The superseded 0.3.3 bridge has that development-build detection bug. Clients already on it should use the verified full NSIS installer once. Published release bytes are retained unchanged.
 
