@@ -14,7 +14,7 @@ This checklist is ready to use when desktop implementation begins. A working win
 - [ ] Rejected input never replaces the last-known-good report.
 - [ ] Multiple colonies and multiple instances are selectable without data mixing.
 - [ ] Clear local cache removes only files under the app's own user-data cache.
-- [ ] Search, tabs, Simple/Detailed mode, keyboard navigation, reduced motion, and narrow-window layouts still work.
+- [ ] Search, tabs, unified views and section expanders, keyboard navigation, reduced motion, and narrow-window layouts still work.
 - [ ] Journal text, routes, storage, and placeholders remain absent.
 
 ## Normal-use matrix

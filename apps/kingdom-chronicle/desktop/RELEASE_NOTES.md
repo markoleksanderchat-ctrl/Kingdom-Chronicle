@@ -23,7 +23,7 @@
 - Uses preserving compatibility bridge 0.3.5 for legacy installations. Its runtime name correctly identifies the app as packaged.
 - Migrates preferences before Chromium starts; keeps existing Roaming data and verified legacy backups.
 - Repairs taskbar target and icon together, preserves application identity and removes only verified duplicate Start Menu links and obsolete application files.
-- Passed real HTTPS bridge-to-NSIS installation and fresh Start Menu/taskbar launches in Windows Sandbox, plus six NSIS Lab upgrades. Reports, settings and Detailed mode survived.
+- Passed real HTTPS bridge-to-NSIS installation and fresh Start Menu/taskbar launches in Windows Sandbox, plus six NSIS Lab upgrades. Reports and settings survived.
 - Releases remain unsigned. The live-PC restricted-process startup failure found during this rollout is addressed by 0.3.7.
 
 ## 0.3.4 - Superseded Windows update release
@@ -53,7 +53,7 @@
 
 - Refreshes the desktop with a compact Minecraft-inspired layout and accessible icon navigation.
 - Adds locally resolved item sprites, searchable inventory rows, and clearer colony, construction, building, and citizen views.
-- Preserves Detailed records, local read-only syncing, settings, and user-controlled verified updates.
+- Preserves complete records, local read-only syncing, settings, and user-controlled verified updates.
 - Uses placeholders when an installed item model cannot be rendered reliably.
 
 ## 0.2.9 - August 3, 2026
@@ -86,7 +86,7 @@
 - Adds a backdated MineColonies combat record to Realm for guard and ranger kills.
 - Separates colony raiders, other hostile mobs, peaceful or other targets, and legacy unclassified kills.
 - Shows animal-worker production slaughter separately from defensive kills.
-- Keeps the detailed per-creature lifetime breakdown available in Detailed view.
+- Keeps the per-creature lifetime breakdown available.
 
 ## 0.2.4 - July 24, 2026
 
@@ -122,7 +122,7 @@
 
 - Rebuilds the desktop around a persistent application sidebar and a focused command bar.
 - Gives Overview, Projects, Citizens, Buildings, Realm, and Records a clear product-level hierarchy.
-- Moves reading depth, instance management, updates, version details, and privacy information into dedicated native-style surfaces.
+- Moves instance management, updates, version details, and privacy information into dedicated native-style surfaces.
 - Adds polished startup, connection, unavailable-data, compact-window, focus, and reduced-motion states.
 - Preserves the existing dashboard intelligence, local Bridge performance work, and strict read-only Minecraft boundary.
 - Keeps update checks and verified installation explicitly user initiated.
@@ -131,10 +131,10 @@
 
 - Refreshes the desktop shortly after Colony Bridge replaces a local report, while retaining a slower fallback check.
 - Debounces local filesystem activity and reuses freshly delivered state to avoid redundant report reads.
-- Keeps large colony-stock searches responsive while filtering the full Detailed ledger.
+- Keeps large colony-stock searches responsive while filtering the full inventory ledger.
 - Replaces the stacked desktop status bars with one compact application toolbar.
 - Gives the selected instance, Bridge state, report time, update action, and refresh action a clearer hierarchy.
-- Refines desktop navigation, reading-depth controls, spacing, typography, loading states, and narrow-window behavior.
+- Refines desktop navigation, spacing, typography, loading states, and narrow-window behavior.
 - Preserves the strict read-only Minecraft boundary and the existing verified, user-initiated update channel.
 
 ## 0.1.7 - July 18, 2026
@@ -153,7 +153,7 @@
 - Keeps a valid colony available when another colony report in the same instance is malformed.
 - Uses bounded reads for Bridge reports, settings, and cached data, and makes cache replacement recoverable.
 - Keeps a valid live report visible when local cache or settings persistence fails.
-- Shows all stock and statistics records in Detailed mode instead of silently stopping at 100 items.
+- Shows all stock and statistics records instead of silently stopping at 100 items.
 - Replaces hard-coded colony, timezone, internal-version, closed-world, unknown-capacity, weather, raid, and local-receipt copy with report-derived wording.
 - Improves updater timeout, semantic-version, cancellation, concurrency, symlink, and renderer-error handling.
 - Adds stricter permission denial, safer fallback error rendering, clean lint coverage, and expanded regression tests.

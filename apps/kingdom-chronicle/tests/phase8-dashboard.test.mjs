@@ -53,7 +53,6 @@ test("every controlled dashboard tab keeps the complete accessible panel contrac
       dataSource,
       desktopMode: true,
       activeTab: tab.id,
-      viewMode: "detailed",
     }));
     assert.equal((html.match(/role="tabpanel"/g) ?? []).length, chronicleTabs.length);
     const desktopLabel = tab.id === "projects" ? "Construction" : tab.id === "records" ? "Ledger" : tab.label;

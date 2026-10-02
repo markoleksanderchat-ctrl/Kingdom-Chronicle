@@ -298,20 +298,6 @@
 .desktop-page-identity h1 { margin: 0; color: #173e36; font: 700 27px/1.06 "Iowan Old Style", "Palatino Linotype", Georgia, serif; letter-spacing: -.03em; }
 .desktop-page-identity small { display: block; max-width: 720px; margin-top: 5px; overflow: hidden; color: var(--desktop-muted); font-size: 10px; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
 .desktop-command-actions { flex: none; display: flex; align-items: center; gap: 9px; }
-.desktop-density { display: flex; gap: 2px; padding: 3px; background: #e8eae6; border: 1px solid #daddd7; border-radius: 9px; }
-.desktop-density button {
-  min-width: 67px;
-  min-height: 32px;
-  padding: 6px 10px;
-  color: #68756f;
-  background: transparent;
-  border: 0;
-  border-radius: 6px;
-  font-size: 10px;
-  font-weight: 750;
-  cursor: pointer;
-}
-.desktop-density button[aria-pressed="true"] { color: #173e36; background: #fff; box-shadow: 0 1px 5px rgba(21, 45, 37, .13); }
 .desktop-refresh {
   min-height: 39px;
   display: flex;

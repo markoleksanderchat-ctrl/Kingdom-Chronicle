@@ -20,13 +20,14 @@ function renderInventory(complete, previous = false, query = "") {
   const prior = structuredClone(snapshot);
   prior.generatedAt = "2026-01-01T00:00:00Z";
   prior.stockLedger.itemsById["minecraft:coal"] = 180;
-  const model = buildDashboardModel(snapshot, previous ? [{ generatedAt: prior.generatedAt, snapshot: prior }] : [], "simple", query);
-  return renderToStaticMarkup(createElement(InventoryList, { model, viewMode: "simple" }));
+  const model = buildDashboardModel(snapshot, previous ? [{ generatedAt: prior.generatedAt, snapshot: prior }] : [], query);
+  return renderToStaticMarkup(createElement(InventoryList, { model }));
 }
-test("simple inventory highlights observed changes and requested shortages", () => {
+test("inventory retains the full ledger, recorded changes and requested shortages", () => {
   const html = renderInventory(true, true);
-  assert.match(html, /Most plentiful/);
-  assert.match(html, /Recently changed/);
+  assert.match(html, /Counted inventory/);
+  assert.match(html, /Largest changes/);
+  assert.match(html, /\+20/);
   assert.match(html, /Low-stock priorities/);
   assert.match(html, /Glass/);
   assert.doesNotMatch(html, /No comparable item changes/);
@@ -37,10 +38,10 @@ test("an incomplete inventory never claims an unexported requested item has zero
   assert.doesNotMatch(html, /Glass/);
   assert.match(html, /No comparable item changes/);
 });
-test("registry and namespace search bypasses summary limits", () => {
+test("registry and namespace search filters the complete inventory", () => {
   const html = renderInventory(true, true, "minecraft:iron");
   assert.match(html, /Iron Ingot/);
-  assert.doesNotMatch(html, /Coal|Most plentiful|Low-stock priorities/);
+  assert.doesNotMatch(html, /Coal|Counted inventory|Low-stock priorities/);
 });
 test("unavailable sprites render a placeholder with no broken image or name-based request", () => {
   const html = renderToStaticMarkup(createElement(MinecraftItemIcon, { registryId: "unknown:missing", displayName: "Coal" }));
@@ -66,7 +67,7 @@ test("food records retain full menus and distinguish zero stock from incomplete 
 test("removal orders retain their reported level without pretending to build level zero", () => {
   const snapshot = structuredClone(fixture);
   snapshot.construction = [{ ...snapshot.construction[0], projectType: "remove", currentLevel: 4, targetLevel: 0, projectState: "REMOVE" }];
-  const model = buildDashboardModel(snapshot, [], "detailed", "");
+  const model = buildDashboardModel(snapshot, [], "");
   const html = renderToStaticMarkup(createElement(ProjectsTab, { model, active: true, desktopMode: true }));
   assert.match(html, /Level 4 · Removal/);
   assert.match(html, /Removal order/);
@@ -76,8 +77,8 @@ test("removal orders retain their reported level without pretending to build lev
 test("citizen saturation is reported without an invented vanilla food maximum", () => {
   const snapshot = structuredClone(fixture);
   snapshot.citizens[0].saturation = 49.7;
-  const model = buildDashboardModel(snapshot, [], "detailed", "");
-  const html = renderToStaticMarkup(createElement(CitizensTab, { model, active: true, desktopMode: true, viewMode: "detailed" }));
+  const model = buildDashboardModel(snapshot, [], "");
+  const html = renderToStaticMarkup(createElement(CitizensTab, { model, active: true, desktopMode: true }));
   assert.match(html, /data-label="Saturation">49.7/);
   assert.doesNotMatch(html, /49.7.*\/ 20/);
   assert.equal(citizenAttentionReason({ ...snapshot.citizens[0], saturation: 4, sick: false, injured: false, happiness: 10, requestingItem: false, idle: false }), "Low saturation: 4.0");

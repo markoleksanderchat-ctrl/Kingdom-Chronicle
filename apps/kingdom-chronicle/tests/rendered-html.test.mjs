@@ -199,9 +199,6 @@ test("production source reads the bridge contract instead of duplicating colony 
   assert.match(layout, /\/favicon\.svg/);
   assert.match(layout, /\/favicon-32\.png/);
   assert.match(layout, /\/apple-touch-icon\.png/);
-  assert.match(dashboardSource, /kingdom-chronicle-view-mode/);
-  assert.match(dashboardSource, /aria-pressed=\{viewMode === "simple"\}/);
-  assert.match(css, /\[data-view-mode="simple"\] \.detail-only/);
   assert.match(css, /@media \(max-width: 700px\)/);
   assert.match(css, /@media \(max-width: 430px\)/);
   assert.match(css, /@media \(max-width: 340px\)/);
@@ -211,12 +208,9 @@ test("production source reads the bridge contract instead of duplicating colony 
   assert.match(css, /prefers-reduced-motion/);
   assert.match(layout, /viewportFit:\s*"cover"/);
   assert.match(css, /--bg: #eee9df/);
-  assert.match(css, /\.view-options/);
   assert.match(dashboardSource, /Colony connected/);
   assert.match(dashboardSource, /window\.addEventListener\("online", refresh\)/);
   assert.match(dashboardSource, /document\.addEventListener\("visibilitychange", refreshWhenVisible\)/);
-  assert.match(dashboardSource, /Simple view/);
-  assert.match(dashboardSource, /Detailed view/);
   assert.doesNotMatch(dashboardSource, /Journal|journal|The Founding Years|Orders for the Coming Day|steward&apos;s margin/);
   assert.doesNotMatch(css, /journal-|steward-report|report-events|steward-duties/);
   assert.match(dashboardSource, /<InventoryList model=\{model\}/);

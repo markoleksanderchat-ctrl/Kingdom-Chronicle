@@ -12,11 +12,11 @@ export function selectStock(stockLedger: StockLedger | undefined) {
   return { items, friendlyNameCounts };
 }
 
-export function filterStock(items: ReadonlyArray<readonly [string, number]>, query: string, simple: boolean) {
+export function filterStock(items: ReadonlyArray<readonly [string, number]>, query: string) {
   const normalizedQuery = query.trim().toLowerCase();
   const matching = items.filter(([item]) => !normalizedQuery || identifierName(item).toLowerCase().includes(normalizedQuery)
     || item.toLowerCase().includes(normalizedQuery));
-  return { normalizedQuery, matching, visible: simple && !normalizedQuery ? matching.slice(0, 12) : matching };
+  return { normalizedQuery, matching, visible: matching };
 }
 
 export function selectStockHistory(current: StockLedger | undefined, previous: StockLedger | undefined) {

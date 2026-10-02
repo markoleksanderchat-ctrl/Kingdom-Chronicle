@@ -5,7 +5,6 @@ export {
   chronicleTabs,
   type ChronicleDashboardProps,
   type ChronicleTabId,
-  type ChronicleViewMode,
 } from "@/components/dashboard/chronicle-dashboard";
 
 export default function Home() {

@@ -9,7 +9,6 @@ import { selectResearch } from "./selectors/research";
 import { selectStatistics } from "./selectors/statistics";
 import { filterStock, selectStock, selectStockHistory } from "./selectors/stock";
 
-export type DashboardViewMode = "simple" | "detailed";
 type LivestockHut = NonNullable<NonNullable<ColonySnapshot["livestock"]>["huts"]>[number];
 type LivestockHutModel = LivestockHut & { sortedByType: Array<[string, number]> };
 
@@ -41,7 +40,6 @@ export interface DashboardModel {
   raidStatusKnown: boolean;
   headline: string;
   sortedBuildings: Building[];
-  simpleBuildings: Building[];
   visibleBuildings: Building[];
   buildingCounts: { housing: number; couriers: number; builders: number; attention: number };
   completedResearch: string[];
@@ -155,7 +153,6 @@ function buildBaseModel(snapshot: ColonySnapshot): BaseDashboardModel {
       : summary.citizenCapacity && summary.citizenCount >= summary.citizenCapacity
         ? "Stable, productive, and at capacity." : "Stable, productive, and growing.",
     sortedBuildings: selectedBuildings.sorted,
-    simpleBuildings: selectedBuildings.simple,
     buildingCounts: selectedBuildings.counts,
     completedResearch: selectedResearch.completed,
     researchEffects: selectedResearch.effects,
@@ -199,16 +196,16 @@ function buildBaseModel(snapshot: ColonySnapshot): BaseDashboardModel {
 }
 
 export function buildDashboardModel(snapshot: ColonySnapshot, history: readonly SnapshotHistoryEntry[],
-                                    viewMode: DashboardViewMode, stockQuery: string): DashboardModel {
+                                    stockQuery: string): DashboardModel {
   const base = buildBaseModel(snapshot);
   const previousEntry = history.find((entry) => entry.generatedAt !== snapshot.generatedAt);
   const previousSnapshot = previousEntry?.snapshot;
   const stockHistory = selectStockHistory(snapshot.stockLedger, previousSnapshot?.stockLedger);
-  const filteredStock = filterStock(base.stockItems, stockQuery, viewMode === "simple");
+  const filteredStock = filterStock(base.stockItems, stockQuery);
   return {
     ...base,
-    visibleBuildings: viewMode === "simple" ? base.simpleBuildings : base.sortedBuildings,
-    visibleCitizens: viewMode === "simple" ? base.attentionCitizens.slice(0, 8) : base.allCitizensByAttention,
+    visibleBuildings: base.sortedBuildings,
+    visibleCitizens: base.allCitizensByAttention,
     normalizedStockQuery: filteredStock.normalizedQuery,
     matchingStockItems: filteredStock.matching,
     visibleStockItems: filteredStock.visible,
@@ -224,8 +221,6 @@ export function buildDashboardModel(snapshot: ColonySnapshot, history: readonly 
     previousItems: stockHistory.previousItems,
     stockChanges: stockHistory.changes,
     stockCoverageChanged: stockHistory.coverageChanged,
-    visibleRecentKeys: viewMode === "simple" ? base.recentKeys.filter((key) =>
-      (base.recentStatistics?.today[key] ?? 0) > 0 || (base.recentStatistics?.recentWindow[key] ?? 0) > 0).slice(0, 6)
-      : base.recentKeys,
+    visibleRecentKeys: base.recentKeys,
   };
 }

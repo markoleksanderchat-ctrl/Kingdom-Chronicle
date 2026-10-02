@@ -15,7 +15,7 @@ const clone = (value) => structuredClone(value);
 test("snapshot contract accepts additive producer fields without changing the domain model", () => {
   const additive = { ...clone(baseSnapshot), futureBridgeField: { accepted: true } };
   assert.equal(isColonySnapshot(additive), true);
-  const model = buildDashboardModel(additive, [], "simple", "");
+  const model = buildDashboardModel(additive, [], "");
   assert.equal(model.citizens.length, baseSnapshot.citizens.length);
   assert.equal(model.sortedBuildings.length, baseSnapshot.buildings.length);
 });
@@ -50,7 +50,7 @@ test("missing optional fields and menu gaps produce stable defaults", () => {
   snapshot.research.effects = undefined;
   snapshot.foodSupply = { ...snapshot.foodSupply, approvedMenuItems: ["minecraft:bread", "minecraft:apple"],
     servingsByItem: { "minecraft:bread": 12 } };
-  const model = buildDashboardModel(snapshot, [], "simple", "");
+  const model = buildDashboardModel(snapshot, [], "");
   assert.deepEqual(model.livestockHuts, []);
   assert.deepEqual([...model.visibleStats].sort(), Object.keys(snapshot.statistics).sort());
   assert.deepEqual(model.missingMenuFoods, ["minecraft:apple"]);
@@ -73,7 +73,7 @@ test("incomplete defense detail reports partial coverage", () => {
     animalsButcheredToday: 0,
     animalsButcheredRecentWindow: 0,
   };
-  const model = buildDashboardModel(snapshot, [], "detailed", "");
+  const model = buildDashboardModel(snapshot, [], "");
   assert.equal(model.lifetimeDefenseDetail, 3);
   assert.equal(model.defenseCoverage, 30);
 });
@@ -86,7 +86,7 @@ test("history deltas flag changed stock scan coverage", () => {
   previous.stockLedger.scannedSlots = 100;
   current.stockLedger.scannedSlots = 180;
   current.stockLedger.totalItems = (previous.stockLedger.totalItems ?? 0) + 25;
-  const model = buildDashboardModel(current, [{ generatedAt: previous.generatedAt, receivedAt: previous.generatedAt, snapshot: previous }], "simple", "");
+  const model = buildDashboardModel(current, [{ generatedAt: previous.generatedAt, receivedAt: previous.generatedAt, snapshot: previous }], "");
   assert.equal(model.stockCoverageChanged, true);
   assert.equal(model.stockTotalDelta, "+25");
 });
@@ -98,7 +98,7 @@ test("unknown research and missing raid evidence remain explicit", () => {
   snapshot.colony.underAttack = null;
   snapshot.colony.raided = null;
   delete snapshot.colony.flags.expectedRaiderCount;
-  const model = buildDashboardModel(snapshot, [], "simple", "");
+  const model = buildDashboardModel(snapshot, [], "");
   assert.equal(model.raidForecast, "Raid status unavailable");
   assert.equal(model.expectedRaiderCount, null);
   assert.match(model.researchBenefits[0].summary.title, /Unknown Research Effect/i);
@@ -108,8 +108,8 @@ test("unknown research and missing raid evidence remain explicit", () => {
 test("selectors do not mutate snapshot arrays and cache base work by identity", () => {
   const snapshot = clone(baseSnapshot);
   const before = JSON.stringify(snapshot);
-  const first = buildDashboardModel(snapshot, [], "simple", "");
-  const second = buildDashboardModel(snapshot, [], "detailed", "stone");
+  const first = buildDashboardModel(snapshot, [], "");
+  const second = buildDashboardModel(snapshot, [], "stone");
   assert.equal(JSON.stringify(snapshot), before);
   assert.strictEqual(first.citizenById, second.citizenById);
   assert.strictEqual(first.sortedBuildings, second.sortedBuildings);
@@ -128,7 +128,7 @@ test("large dashboard model stays within the provisional 50 ms budget", () => {
   snapshot.stockLedger.itemsById = Object.fromEntries(Array.from({ length: 2_000 }, (_, index) =>
     [`example:item_${String(index).padStart(4, "0")}`, index]));
   const started = performance.now();
-  const model = buildDashboardModel(snapshot, [], "detailed", "item_19");
+  const model = buildDashboardModel(snapshot, [], "item_19");
   const elapsed = performance.now() - started;
   assert.equal(model.citizens.length, 500);
   assert.equal(model.stockItems.length, 2_000);

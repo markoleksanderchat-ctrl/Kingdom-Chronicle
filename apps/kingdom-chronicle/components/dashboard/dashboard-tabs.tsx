@@ -3,7 +3,7 @@ import {
   buildingGroup, buildingPeopleIds, buildingName, buildingState, citizenStatus, formatNumber,
   formatSnapshotTime, identifierName, roleName,
 } from "@/lib/colony";
-import type { DashboardModel, DashboardViewMode } from "@/lib/dashboard-model";
+import type { DashboardModel } from "@/lib/dashboard-model";
 import {
   citizenAttentionReason, citizenTreatmentCondition,
   constructionCompletionPercent as completionPercent,
@@ -29,7 +29,7 @@ interface TabProps {
   desktopMode: boolean;
 }
 
-export const OverviewTab = memo(function OverviewTab({ model, active, desktopMode, viewMode }: TabProps & { viewMode: DashboardViewMode }) {
+export const OverviewTab = memo(function OverviewTab({ model, active, desktopMode }: TabProps) {
   const {
     colony, structurePack, centerBiome, construction, requests, raidReadiness, capacityPercent,
     raidStatusKnown, worldStatus, worldAgeDays, colonyDay, summary, lowMorale, activeWorkplaces,
@@ -37,7 +37,7 @@ export const OverviewTab = memo(function OverviewTab({ model, active, desktopMod
     citizens, unhealthy, citizenById, foodReserveDelta, foodRunwayDelta, topFoods, menuFoods,
     missingMenuFoods, happinessDelta,
   } = model;
-  const visibleFoods = viewMode === "simple" ? topFoods.slice(0, 6) : topFoods;
+  const visibleFoods = topFoods.slice(0, 6);
   return (
       <div id="panel-overview" className="tab-panel" role="tabpanel" aria-labelledby={desktopMode ? undefined : "tab-overview"} aria-label={desktopMode ? "Overview" : undefined} tabIndex={0} hidden={!active}>
         <section className="intro" aria-labelledby="realm-heading">
@@ -63,8 +63,8 @@ export const OverviewTab = memo(function OverviewTab({ model, active, desktopMod
         <section className="metric-row" aria-label="Primary colony metrics">
           <article><i className="metric-icon"><ChronicleGlyph icon="citizens" /></i><span>Citizens</span><strong>{summary.citizenCount} / {summary.citizenCapacity ?? "?"}</strong><small>{capacityPercent == null ? wording.unavailable : `${formatNumber(capacityPercent)}% full`}</small></article>
           <article><i className="metric-icon"><ChronicleGlyph icon="heart" /></i><span>Happiness</span><strong>{formatNumber(colony.overallHappiness, 1)}</strong><small>{lowMorale.length} below 6.0{happinessDelta ? ` · ${happinessDelta}` : ""}</small></article>
-          <article className="secondary-metric"><i className="metric-icon"><ChronicleGlyph icon="projects" /></i><span>Workers</span><strong>{summary.employedCitizens} / {summary.citizenCount}</strong><small>{summary.unemployedCitizens} without work</small></article>
-          <article className="secondary-metric"><i className="metric-icon"><ChronicleGlyph icon="buildings" /></i><span>Buildings</span><strong>{summary.buildingCount}</strong><small>{activeWorkplaces} active workplaces</small></article>
+          <article><i className="metric-icon"><ChronicleGlyph icon="projects" /></i><span>Workers</span><strong>{summary.employedCitizens} / {summary.citizenCount}</strong><small>{summary.unemployedCitizens} without work</small></article>
+          <article><i className="metric-icon"><ChronicleGlyph icon="buildings" /></i><span>Buildings</span><strong>{summary.buildingCount}</strong><small>{activeWorkplaces} active workplaces</small></article>
           <article><i className="metric-icon"><ChronicleGlyph icon="projects" /></i><span>Projects</span><strong>{summary.activeConstructionProjects}</strong><small>{construction.length ? "Underway" : "None"}</small></article>
           <article><i className="metric-icon"><ChronicleGlyph icon="records" /></i><span>Requests</span><strong>{summary.activeRequests}</strong><small>{requests[0]?.details.display ? String(requests[0].details.display) : "None"}</small></article>
         </section>
@@ -79,7 +79,7 @@ export const OverviewTab = memo(function OverviewTab({ model, active, desktopMod
           {raidActive && <span className="critical">Raid active</span>}
         </section>}
 
-        {viewMode === "simple" && lowMorale.length > 0 && <section className="attention-strip" aria-labelledby="attention-heading">
+        {lowMorale.length > 0 && <section className="attention-strip" aria-labelledby="attention-heading">
           <div><h2 id="attention-heading">Lowest happiness</h2></div>
           <div className="attention-citizens">
             {lowMoraleHighlights.map((citizen, index) => <article key={citizen.id ?? citizen.name ?? index}>
@@ -124,14 +124,14 @@ export const OverviewTab = memo(function OverviewTab({ model, active, desktopMod
                 <dl>
                   <div><dt>Meals stored</dt><dd>{formatNumber(foodSupply.storedServings)}</dd></div>
                   <div><dt>Average use</dt><dd>{foodSupply.averageMealsPerDay == null ? "Learning" : `${formatNumber(foodSupply.averageMealsPerDay, 1)} / day`}</dd></div>
-                  <div className="detail-only"><dt>Menu foods</dt><dd>{formatNumber(foodSupply.menuApprovedFoodTypes)}</dd></div>
-                  <div className="detail-only"><dt>Dining Halls</dt><dd>{formatNumber(foodSupply.diningHallsScanned)} checked</dd></div>
+                  <div><dt>Menu foods</dt><dd>{formatNumber(foodSupply.menuApprovedFoodTypes)}</dd></div>
+                  <div><dt>Dining Halls</dt><dd>{formatNumber(foodSupply.diningHallsScanned)} checked</dd></div>
                 </dl>
               </div>
                 {(foodReserveDelta || foodRunwayDelta) && <p className="trend-note food-trend">Since last report: food {foodReserveDelta ?? "No change"}; days remaining {foodRunwayDelta ?? "No change"}.</p>}
               <div className="food-detail">
-                <div><h3>Menu food on hand</h3>{visibleFoods.length ? <ul>{visibleFoods.map(([item, count]) => <li key={item}><ResourceRow item={item} count={count} label={identifierName(item)} /></li>)}</ul> : <p className="muted">None of the foods selected on the Dining Hall menu were found in colony building storage.</p>}</div>
-                <div className="detail-only"><h3>Dining Hall menu</h3>{menuFoods.length ? <ul>{menuFoods.map((item) => <li key={item}><MinecraftItemIcon registryId={item} displayName={identifierName(item)} size={24} /><span>{identifierName(item)}</span><strong>Included</strong></li>)}</ul> : <p className="empty-state">No menu foods selected.</p>}</div>
+                <div><h3>Menu food on hand</h3>{visibleFoods.length ? <ul>{visibleFoods.map(([item, count]) => <li key={item}><ResourceRow item={item} count={count} label={identifierName(item)} /></li>)}</ul> : <p className="muted">None of the foods selected on the Dining Hall menu were found in colony building storage.</p>}{topFoods.length > visibleFoods.length && <details className="section-disclosure"><summary>More food on hand ({topFoods.length - visibleFoods.length})</summary><ul>{topFoods.slice(visibleFoods.length).map(([item, count]) => <li key={item}><ResourceRow item={item} count={count} label={identifierName(item)} /></li>)}</ul></details>}</div>
+                <details className="section-disclosure"><summary>Dining Hall menu ({menuFoods.length})</summary>{menuFoods.length ? <ul>{menuFoods.map((item) => <li key={item}><MinecraftItemIcon registryId={item} displayName={identifierName(item)} size={24} /><span>{identifierName(item)}</span><strong>Included</strong></li>)}</ul> : <p className="empty-state">No menu foods selected.</p>}</details>
                 {missingMenuFoods.length > 0 && <div className="menu-gap"><h3>Approved but out of stock</h3><div className="food-missing" role="list">{missingMenuFoods.map((item) => <ResourceRow key={item} item={item} count={0} label={identifierName(item)} note="OUT OF STOCK" dimmed />)}</div></div>}
                 <p className="food-note">Counts menu-approved food in colony storage. The estimate uses {formatNumber(foodSupply.mealsServedSample)} meals over {foodSupply.sampleDays} completed days and assumes no new food is added. {foodSupply.truncated ? "The true reserve may be higher." : `${foodSupply.scannedBuildings} buildings checked.`}</p>
               </div>
@@ -163,7 +163,7 @@ export const ProjectsTab = memo(function ProjectsTab({ model, active, desktopMod
                 <article className="build-card" key={`${project.buildingId}-${workOrder ?? index}`}>
                   <div className="build-head">
                     <span className="block-icon"><MinecraftItemIcon registryId={reconciledBuildings.find((building) => building.id === project.buildingId)?.registryId} displayName={projectName(project)} size={32} fallback="building" /></span>
-                    <div><h3>{projectName(project)}</h3><p>Level {project.currentLevel ?? "?"}{removal ? " · Removal" : ` → ${project.targetLevel ?? "?"}`}<span className="detail-only"> · Order #{String(workOrder ?? "?")}</span></p></div>
+                    <div><h3>{projectName(project)}</h3><p>Level {project.currentLevel ?? "?"}{removal ? " · Removal" : ` → ${project.targetLevel ?? "?"}`}</p></div>
                     <b>{removal ? "Removal order" : "Under construction"}</b>
                   </div>
                   <div className="phase"><span>Builder</span><strong>{builder?.name ?? wording.noWorker}</strong></div>
@@ -175,13 +175,15 @@ export const ProjectsTab = memo(function ProjectsTab({ model, active, desktopMod
                   </div>
                   <div className="build-task"><span>Current task</span><strong>{task}</strong></div>
                   {!removal && <div className="builder-materials"><h4>Builder requests</h4>{builderRequests.length ? <div role="list">{builderRequests.map((request, index) => <ResourceRow key={request.id ?? index} item={request.requestedItemRegistryId ?? ""} count={request.remainingQuantity!} label={request.requestedItemDisplayName ?? identifierName(request.requestedItemRegistryId)} note="remaining" />)}</div> : <p className="muted">No open builder requests reported.</p>}<small>{typeof project.details.remainingRequiredResources === "number" ? `${formatNumber(project.details.remainingRequiredResources)} material units remaining` : "Material quantities unavailable"}</small></div>}
-                  {!removal && <div className="detail-only"><PhaseTracker project={project} /></div>}
-                  <dl className="detail-only">
-                    <div><dt>Stage</dt><dd>{task}</dd></div>
+                  <details className="section-disclosure"><summary>Project information</summary>
+                  {!removal && <PhaseTracker project={project} />}
+                  <dl>
+                    <div><dt>Work order</dt><dd>#{String(workOrder ?? "?")}</dd></div>
                     <div><dt>Builder&apos;s Hut</dt><dd>Level {reconciledBuildings.find((item) => item.id === project.builderHutId)?.level ?? "?"}</dd></div>
                     <div><dt>Rotation</dt><dd>{rotationLabel}</dd></div>
                     <div><dt>Style</dt><dd>{String(project.details.structurePack ?? structurePack)}</dd></div>
                   </dl>
+                  </details>
                 </article>
               );
             })}
@@ -192,30 +194,30 @@ export const ProjectsTab = memo(function ProjectsTab({ model, active, desktopMod
   );
 });
 
-export const CitizensTab = memo(function CitizensTab({ model, active, desktopMode, viewMode }: TabProps & { viewMode: DashboardViewMode }) {
+export const CitizensTab = memo(function CitizensTab({ model, active, desktopMode }: TabProps) {
   const { citizens, visibleCitizens, needsTreatment, hospitalized, outsideHospitalCount, reconciledBuildings } = model;
   return (
       <div id="panel-citizens" className="tab-panel" role="tabpanel" aria-labelledby={desktopMode ? undefined : "tab-citizens"} aria-label={desktopMode ? "Citizens" : undefined} tabIndex={0} hidden={!active}>
         <section className="section" aria-labelledby="population-heading">
           <div className="section-title"><div><h2 id="population-heading">Citizens</h2></div><span>{citizens.length}</span></div>
-          {viewMode === "simple" && <p className="context simple-context">{visibleCitizens.length} may need attention. Switch to Detailed for everyone.</p>}
+          {model.attentionCitizens.length > 0 && <p className="context">{model.attentionCitizens.length} may need attention · shown first in the full roster.</p>}
           <div className="table-wrap">
             <table>
               <caption>Citizen wellbeing</caption>
-              <thead><tr><th scope="col">Citizen</th><th scope="col">Role</th><th className="detail-only" scope="col">Home</th><th scope="col">Health</th><th scope="col">Status</th><th scope="col">Happiness</th><th className="detail-only" scope="col">Saturation</th></tr></thead>
+              <thead><tr><th scope="col">Citizen</th><th scope="col">Role</th><th scope="col">Home</th><th scope="col">Health</th><th scope="col">Status</th><th scope="col">Happiness</th><th scope="col">Saturation</th></tr></thead>
               <tbody>
                 {visibleCitizens.map((citizen) => (
                   <tr key={citizen.id ?? citizen.name}>
-                    <td data-label="Citizen"><strong>{citizen.name ?? `Citizen ${citizen.id}`}</strong>{(citizen.sick || citizen.injured) && <small className="health-flag">Needs care</small>}{citizenAttentionReason(citizen) !== citizenStatus(citizen) && <small className="simple-only attention-reason">{citizenAttentionReason(citizen)}</small>}</td>
+                    <td data-label="Citizen"><strong>{citizen.name ?? `Citizen ${citizen.id}`}</strong>{(citizen.sick || citizen.injured) && <small className="health-flag">Needs care</small>}{citizenAttentionReason(citizen) !== citizenStatus(citizen) && <small className="attention-reason">{citizenAttentionReason(citizen)}</small>}</td>
                     <td data-label="Role">{roleName(citizen)}</td>
-                    <td className="detail-only" data-label="Home">{citizen.homeBuildingId ? (reconciledBuildings.filter((building) => building.id === citizen.homeBuildingId).map(buildingName).join("") || "Unreported") : "Unreported"}</td><td data-label="Health">{citizen.sick || citizen.injured ? "Needs care" : citizen.sick === false && citizen.injured === false ? "Healthy" : "Unknown"}</td><td data-label="Status">{citizenStatus(citizen)}</td>
+                    <td data-label="Home">{citizen.homeBuildingId ? (reconciledBuildings.filter((building) => building.id === citizen.homeBuildingId).map(buildingName).join("") || "Unreported") : "Unreported"}</td><td data-label="Health">{citizen.sick || citizen.injured ? "Needs care" : citizen.sick === false && citizen.injured === false ? "Healthy" : "Unknown"}</td><td data-label="Status">{citizenStatus(citizen)}</td>
                     <td data-label="Happiness"><div className="value-meter"><span>{formatNumber(citizen.happiness, 1)}</span><Meter value={citizen.happiness ?? 0} max={10} warn={(citizen.happiness ?? 10) < 6} label={`${citizen.name} happiness`} /></div></td>
-                    <td className="detail-only" data-label="Saturation">{formatNumber(citizen.saturation, 1)}</td>
+                    <td data-label="Saturation">{formatNumber(citizen.saturation, 1)}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            {visibleCitizens.length === 0 && <p className="empty-state success-state">{citizens.length === 0 ? "No citizens reported." : "No citizens need attention."}</p>}
+            {visibleCitizens.length === 0 && <p className="empty-state success-state">No citizens reported.</p>}
           </div>
         </section>
         <section className="side-section care-section" aria-labelledby="medical-heading">
@@ -242,13 +244,12 @@ export const CitizensTab = memo(function CitizensTab({ model, active, desktopMod
   );
 });
 
-export const BuildingsTab = memo(function BuildingsTab({ model, active, desktopMode, viewMode }: TabProps & { viewMode: DashboardViewMode }) {
+export const BuildingsTab = memo(function BuildingsTab({ model, active, desktopMode }: TabProps) {
   const { reconciledBuildings, visibleBuildings, buildingCounts, citizenById } = model;
   return (
       <div id="panel-buildings" className="tab-panel" role="tabpanel" aria-labelledby={desktopMode ? undefined : "tab-buildings"} aria-label={desktopMode ? "Buildings" : undefined} tabIndex={0} hidden={!active}>
         <section className="section" aria-labelledby="buildings-heading">
           <div className="section-title"><div><h2 id="buildings-heading">Buildings</h2></div><span>{reconciledBuildings.length}</span></div>
-          {viewMode === "simple" && <p className="context simple-context">{visibleBuildings.length} may need attention. Switch to Detailed for all buildings.</p>}
           <div className="building-summary">
             <div><strong>{buildingCounts.housing}</strong><span>Housing</span></div>
             <div><strong>{buildingCounts.couriers}</strong><span>Couriers</span></div>
@@ -268,7 +269,7 @@ export const BuildingsTab = memo(function BuildingsTab({ model, active, desktopM
                 </article>
               );
             })}
-            {visibleBuildings.length === 0 && <p className="empty-state success-state">{reconciledBuildings.length === 0 ? "No buildings reported." : "Nothing needs attention."}</p>}
+            {visibleBuildings.length === 0 && <p className="empty-state success-state">No buildings reported.</p>}
           </div>
         </section>
       </div>
@@ -288,7 +289,7 @@ export const RealmTab = memo(function RealmTab({ model, active, desktopMode }: T
           <section className="side-section knowledge-section" aria-labelledby="research-heading">
             <h2 id="research-heading">Research</h2>
             <p className="muted">{completedResearch.length} completed · {research.inProgress.length} in progress</p>
-            <ul className="research detail-only">{completedResearch.map((item, index) => <li key={`${item}-${index}`}><span aria-hidden="true">✓</span>{item}</li>)}</ul>
+            <details className="section-disclosure"><summary>Completed research ({completedResearch.length})</summary>{completedResearch.length ? <ul className="research">{completedResearch.map((item, index) => <li key={`${item}-${index}`}><span aria-hidden="true">✓</span>{item}</li>)}</ul> : <p className="empty-state">No completed research reported.</p>}</details>
             <div className="subsection-heading"><h3>Active benefits</h3></div>
             {researchBenefits.length > 0 ? <ul className="benefit-list">{researchBenefits.map(({ id, summary }) =>
               <li key={id}><span><strong>{summary.title}</strong><small>{summary.description}</small></span><b>{summary.value}</b></li>)}</ul>
@@ -303,8 +304,8 @@ export const RealmTab = memo(function RealmTab({ model, active, desktopMode }: T
               <div><dt>Weather</dt><dd>{environment.thundering === true ? "Thunderstorm" : environment.raining === true ? "Rain" : environment.thundering === false && environment.raining === false ? "Clear" : "Unknown"}</dd></div>
               <div><dt>World day</dt><dd>{worldAgeDays ?? "Unknown"}</dd></div>
               <div><dt>Colony day</dt><dd>{colonyDay ?? "Unknown"}</dd></div>
-              <div className="detail-only"><dt>Claimed land</dt><dd>{managedChunks ?? "Unknown"} chunks</dd></div>
-              <div className="detail-only"><dt>Land in view</dt><dd>{territory.loadedChunks ?? "Unknown"} chunks</dd></div>
+              <div><dt>Claimed land</dt><dd>{managedChunks ?? "Unknown"} chunks</dd></div>
+              <div><dt>Land in view</dt><dd>{territory.loadedChunks ?? "Unknown"} chunks</dd></div>
               <div><dt>Raid status</dt><dd>{raidActive ? "Active" : raidStatusKnown ? "Peaceful" : "Unknown"}</dd></div>
             </dl>
           </section>
@@ -321,9 +322,9 @@ export const RealmTab = memo(function RealmTab({ model, active, desktopMode }: T
               <div><dt>Current threat</dt><dd>{raidReadiness.expectedRaiders == null ? wording.unavailable : `${formatNumber(raidReadiness.availableGuards)} guard${raidReadiness.availableGuards === 1 ? "" : "s"} vs ${formatNumber(raidReadiness.expectedRaiders)} raider${raidReadiness.expectedRaiders === 1 ? "" : "s"}`}</dd></div>
               <div><dt>Available guards</dt><dd>{raidReadiness.totalGuards === 0 ? "None" : `${formatNumber(raidReadiness.availableGuards)} of ${formatNumber(raidReadiness.totalGuards)}`}</dd></div>
               <div><dt>Recovery support</dt><dd>{raidReadiness.medicalStatus}</dd></div>
-              <div className="detail-only"><dt>Population baseline</dt><dd>1 per 5 citizens · {raidReadiness.populationBaseline} guards</dd></div>
-              <div className="detail-only"><dt>Defensive posts</dt><dd>{raidReadiness.staffedDefensivePosts} of {raidReadiness.defensivePosts} staffed</dd></div>
-              <div className="detail-only"><dt>Estimate confidence</dt><dd title={raidReadiness.confidenceDetail}>{raidReadiness.confidence}</dd></div>
+              <div><dt>Population baseline</dt><dd>1 per 5 citizens · {raidReadiness.populationBaseline} guards</dd></div>
+              <div><dt>Defensive posts</dt><dd>{raidReadiness.staffedDefensivePosts} of {raidReadiness.defensivePosts} staffed</dd></div>
+              <div><dt>Estimate confidence</dt><dd title={raidReadiness.confidenceDetail}>{raidReadiness.confidence}</dd></div>
               <div><dt>Nights since raid</dt><dd>{typeof colony.flags.nightsSinceLastRaid === "number" ? formatNumber(colony.flags.nightsSinceLastRaid) : "Unknown"}</dd></div>
             </dl>
             <ul className="readiness-actions">{raidReadiness.actions.map((action) => <li key={action}>{action}</li>)}</ul>
@@ -340,11 +341,11 @@ export const RealmTab = memo(function RealmTab({ model, active, desktopMode }: T
               <div><span>Unclassified</span><strong>{formatNumber(defenseStatistics.lifetime.unclassified)}</strong></div>
             </div>
             <div className="production-kills"><span>Animals butchered</span><strong>{formatNumber(defenseStatistics.animalsButchered)}</strong><small>{formatNumber(defenseStatistics.animalsButcheredToday)} today · {formatNumber(defenseStatistics.animalsButcheredRecentWindow)} over {defenseStatistics.windowDays} days</small></div>
-            {defensiveKillsByEntity.length > 0 && <ul className="defense-entities detail-only">{defensiveKillsByEntity.map(([entity, count]) => {
+            {defensiveKillsByEntity.length > 0 && <details className="section-disclosure"><summary>Creature breakdown ({defensiveKillsByEntity.length})</summary><ul className="defense-entities">{defensiveKillsByEntity.map(([entity, count]) => {
               const category = defenseStatistics.lifetime.byEntityCategory?.[entity];
               const categoryLabel = category === "minecolonies_raider" ? "MineColonies raider" : category === "monster_or_hostile" ? "Monster / hostile" : category === "neutral_or_peaceful" ? "Neutral / peaceful" : "Unclassified";
               return <li key={entity}><span>{identifierName(entity)}<small>{categoryLabel}</small></span><strong>{formatNumber(count)}</strong></li>;
-            })}</ul>}
+            })}</ul></details>}
             <p className="readiness-note">Counts final blows by Knights and Rangers. Player kills are excluded.</p>
           </section>}
 
@@ -360,9 +361,8 @@ export const RealmTab = memo(function RealmTab({ model, active, desktopMode }: T
 });
 
 export const RecordsTab = memo(function RecordsTab({
-  model, active, desktopMode, viewMode, stockQuery, onStockQueryChange, receivedAt, observedAt,
+  model, active, desktopMode, stockQuery, onStockQueryChange, receivedAt, observedAt,
 }: TabProps & {
-  viewMode: DashboardViewMode;
   stockQuery: string;
   onStockQueryChange: (value: string) => void;
   receivedAt: string | null;
@@ -370,7 +370,7 @@ export const RecordsTab = memo(function RecordsTab({
 }) {
   const {
     stockLedger, stockTotalDelta, stockCoverageChanged,
-    stockChanges, recentStatistics, visibleRecentKeys, mealWindowDifference,
+    recentStatistics, visibleRecentKeys, mealWindowDifference,
     visibleStats, snapshot, availableCapabilities, totalCapabilities, unsupportedCapabilities,
   } = model;
   return (
@@ -388,8 +388,7 @@ export const RecordsTab = memo(function RecordsTab({
               <label className="stock-search"><span>Search items</span><input type="search" value={stockQuery} onChange={(event) => onStockQueryChange(event.target.value)} placeholder="Search items or registry IDs…" /></label>
               {stockCoverageChanged && <p className="coverage-warning"><strong>This count may be incomplete.</strong> Storage coverage changed since the last report. Check again after the next count.</p>}
               {stockLedger.startupScan && <p className="capability-note"><strong>First count after startup.</strong> Quantities will be checked again shortly.</p>}
-              <InventoryList model={model} viewMode={viewMode} />
-              {model.previousItems && !stockCoverageChanged && stockChanges.length > 0 && <div className="stock-changes detail-only"><h3>Largest changes</h3><ul>{stockChanges.map(({ item, delta }) => <li key={item}><span>{identifierName(item)}</span><strong className={delta < 0 ? "negative" : "positive"}>{delta > 0 ? "+" : "−"}{formatNumber(Math.abs(delta))}</strong></li>)}</ul></div>}
+              <InventoryList model={model} />
               <p className="stock-note">Counted every {stockLedger.refreshIntervalDays} colony days. {stockLedger.truncated ? "The true total may be higher." : `${formatNumber(stockLedger.scannedBuildings)} buildings checked.`} {stockLedger.omittedItemTypes > 0 ? `${formatNumber(stockLedger.omittedItemTypes)} uncommon item types are not shown.` : ""}</p>
             </> : <p className="empty-state">Storage count unavailable.</p>}
           </section>
@@ -398,10 +397,10 @@ export const RecordsTab = memo(function RecordsTab({
             <h2 id="recent-output-heading">Recent production</h2>
             {recentStatistics && visibleRecentKeys.length > 0 ? <div className="production-grid">{visibleRecentKeys.map((key) => <div key={key}><span>{statLabels[key] ?? identifierName(key)}</span><strong>{formatNumber(recentStatistics.today[key] ?? 0)} <small>today</small></strong><b>{formatNumber(recentStatistics.recentWindow[key] ?? 0)} over {recentStatistics.windowDays} days</b></div>)}</div>
               : <p className="empty-state">No recent production recorded.</p>}
-            {mealWindowDifference !== 0 && <p className="method-note detail-only">Food and production records differ by {formatNumber(Math.abs(mealWindowDifference))} meals because their count periods end at different times.</p>}
+            {mealWindowDifference !== 0 && <p className="method-note">Food and production records differ by {formatNumber(Math.abs(mealWindowDifference))} meals because their count periods end at different times.</p>}
           </section>
 
-          <section className="side-section detail-only" aria-labelledby="output-heading">
+          <section className="side-section" aria-labelledby="output-heading">
             <h2 id="output-heading">Lifetime production</h2>
             {visibleStats.length === 0 && <p className="empty-state">No lifetime production recorded.</p>}
             <div className="stat-grid">
@@ -409,8 +408,8 @@ export const RecordsTab = memo(function RecordsTab({
             </div>
           </section>
 
-          <section className="side-section note detail-only" aria-labelledby="integrity-heading">
-            <h2 id="integrity-heading">Developer details</h2>
+          <section className="side-section note" aria-label="Report diagnostics">
+            <details className="section-disclosure"><summary>Developer details</summary>
             <dl className="facts compact">
               <div><dt>Bridge</dt><dd>{snapshot.bridgeVersion}</dd></div>
               <div><dt>Source</dt><dd>Local report</dd></div>
@@ -426,6 +425,7 @@ export const RecordsTab = memo(function RecordsTab({
             <div className="capability-list">
               {unsupportedCapabilities.map((name) => <p key={name}><strong>{identifierName(name)}:</strong> Not included in this colony report.</p>)}
             </div>
+            </details>
           </section>
         </div>
       </div>

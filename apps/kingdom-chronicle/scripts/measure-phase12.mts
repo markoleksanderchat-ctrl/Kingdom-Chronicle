@@ -77,13 +77,13 @@ const parse = measure(ITERATIONS, () => JSON.parse(fixtureText));
 const validation = measure(ITERATIONS, () => {
   if (!isColonySnapshot(snapshot)) throw new Error("Snapshot validation changed during measurement.");
 });
-const coldDashboard = measure(ITERATIONS, (index) => buildDashboardModel(clones[index], [], "detailed", "item_19"));
-buildDashboardModel(snapshot, [], "detailed", "");
-const stockSearch = measure(250, (index) => buildDashboardModel(snapshot, [], "detailed", `item_${index % 50}`));
+const coldDashboard = measure(ITERATIONS, (index) => buildDashboardModel(clones[index], [], "item_19"));
+buildDashboardModel(snapshot, [], "");
+const stockSearch = measure(250, (index) => buildDashboardModel(snapshot, [], `item_${index % 50}`));
 
 const heapBefore = process.memoryUsage().heapUsed;
 for (let index = 0; index < 1_000; index += 1) {
-  buildDashboardModel(snapshot, [], index % 2 ? "simple" : "detailed", `item_${index % 50}`);
+  buildDashboardModel(snapshot, [], `item_${index % 50}`);
 }
 const heapAfter = process.memoryUsage().heapUsed;
 

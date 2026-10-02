@@ -22,7 +22,6 @@ export function selectStatistics(snapshot: ColonySnapshot) {
     ...[...new Set([...Object.keys(recent?.today ?? {}), ...Object.keys(recent?.recentWindow ?? {})])]
       .filter((key) => !statisticOrder.includes(key as typeof statisticOrder[number])).sort(),
   ];
-  const simpleRecentKeys = recentKeys.filter((key) => (recent?.today[key] ?? 0) > 0 || (recent?.recentWindow[key] ?? 0) > 0).slice(0, 6);
   const visibleStats = [
     ...statisticOrder.filter((key) => key in snapshot.statistics),
     ...Object.keys(snapshot.statistics).filter((key) => !statisticOrder.includes(key as typeof statisticOrder[number])).sort(),
@@ -34,5 +33,5 @@ export function selectStatistics(snapshot: ColonySnapshot) {
     ? Math.min(100, lifetimeDefenseDetail / defense.lifetime.total * 100) : 100;
   const defensiveKillsByEntity = Object.entries(defense?.lifetime.byEntity ?? {})
     .filter(([, count]) => count > 0).sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0]));
-  return { recent, recentKeys, simpleRecentKeys, visibleStats, defense, lifetimeDefenseDetail, defenseCoverage, defensiveKillsByEntity };
+  return { recent, recentKeys, visibleStats, defense, lifetimeDefenseDetail, defenseCoverage, defensiveKillsByEntity };
 }

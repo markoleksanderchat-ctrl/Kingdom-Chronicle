@@ -16,7 +16,7 @@ export async function GET() {
     changes: [
       "Fixed the navigation menu's brief vertical shift caused by text wrapping and a temporary horizontal scrollbar during opening.",
       "Keeps the existing animation timing, expanded and collapsed layout, appearance, and vertical scrolling.",
-      "Preserves Detailed records, local read-only syncing, settings, and user-initiated verified updates.",
+      "Preserves complete records, local read-only syncing, settings, and user-initiated verified updates.",
     ],
   }, { headers: { "cache-control": "public, max-age=300", "x-content-type-options": "nosniff" } });
 }

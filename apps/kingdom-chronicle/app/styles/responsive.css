@@ -1,9 +1,6 @@
 @media (max-width: 1050px) {
   .topbar { flex-wrap: wrap; padding-block: 14px; }
-  .view-preference { width: 100%; grid-template-columns: auto minmax(0, 1fr); align-items: center; }
-  .view-options { width: 100%; }
   .metric-row { grid-template-columns: repeat(3, 1fr); }
-  [data-view-mode="simple"] .metric-row { grid-template-columns: repeat(2, 1fr); }
   .records-grid { grid-template-columns: 1fr 1fr; }
   .production-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .stock-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -15,10 +12,6 @@
   .topbar h1 { font-size: 26px; overflow-wrap: anywhere; }
   .snapshot { width: 100%; margin: 0; }
   .snapshot { grid-column: 1 / -1; }
-  .view-preference { grid-column: 1 / -1; width: 100%; }
-  .view-preference { grid-template-columns: 1fr; }
-  .view-options { width: 100%; }
-  .mode-banner { align-items: flex-start; margin-top: 8px; }
   .tab-rail { margin-inline: -12px; padding: 8px 12px; overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-width: none; }
   .tab-rail::-webkit-scrollbar { display: none; }
   .tab-list { width: max-content; display: flex; gap: 5px; }
@@ -68,10 +61,6 @@
   .topbar h1 { font-size: 23px; }
   .topbar .kicker { font-size: 9px; }
   .snapshot { padding: 9px 11px; }
-  .view-preference > span { font-size: 8px; }
-  .view-options button { min-height: 58px; padding: 8px; }
-  .view-options small { font-size: 8px; }
-  .mode-banner { display: grid; gap: 2px; }
   .tab-rail { margin-inline: -10px; padding-inline: 10px; }
   .tab-list button { min-width: 101px; min-height: 44px; gap: 6px; padding: 8px 9px; font-size: 10px; }
   .intro { border-left-width: 4px; }
@@ -104,7 +93,7 @@
 }
 
 @media (max-width: 340px) {
-  .metric-row, [data-view-mode="simple"] .metric-row, .building-summary, .stat-grid, .care-summary, .production-grid { grid-template-columns: 1fr; }
+  .metric-row, .building-summary, .stat-grid, .care-summary, .production-grid { grid-template-columns: 1fr; }
   .phase-steps span { font-size: 7px; }
   .request div { display: grid; }
 }

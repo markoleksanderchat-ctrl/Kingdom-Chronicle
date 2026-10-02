@@ -52,11 +52,9 @@ export function selectBuildings(buildings: readonly Building[], citizens: readon
   const reconciled = reconcileBuildingStaffing(buildings, citizens, reportedCitizenCount);
   const sorted = [...reconciled].sort((left, right) => selectBuildingGroup(left).localeCompare(selectBuildingGroup(right))
     || name(left).localeCompare(name(right)) || (right.level ?? 0) - (left.level ?? 0));
-  const simple = sorted.filter((building) => ["Unstaffed", "Unbuilt", "Utility", "Upgrading"].includes(selectBuildingState(building)));
   return {
     reconciled,
     sorted,
-    simple,
     activeWorkplaces: reconciled.filter((building) => building.staffed).length,
     counts: {
       housing: reconciled.filter((building) => selectBuildingGroup(building) === "Housing").length,

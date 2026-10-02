@@ -3,13 +3,13 @@ import { createRoot } from "react-dom/client";
 import {
   ChronicleDashboard,
   type ChronicleTabId,
-  type ChronicleViewMode,
 } from "@/app/page";
 import "@/app/globals.css";
 import "./shell.css";
 import { ElectronColonyDataSource } from "./electron-data-source";
 import { ItemSpriteContext } from "@/components/dashboard/minecraft-item-icon";
 import { connectionStateForSnapshot } from "@/lib/chronicle-runtime";
+import { clearRetiredPreferences } from "@/lib/retired-preferences";
 import type { DesktopAppInfo, DesktopRuntimeState, DesktopUpdateState } from "../types";
 
 import { UpdatesPanel } from "./updates-panel";
@@ -30,9 +30,6 @@ const navigation: ReadonlyArray<{
   { id: "realm", label: "Realm", description: "Safety and territory", icon: "realm" },
   { id: "records", label: "Ledger", description: "Supplies and production", icon: "records" },
 ];
-
-const VIEW_MODE_STORAGE_KEY = "kingdom-chronicle-view-mode";
-
 
 function reportIdentity(state: DesktopRuntimeState) {
   const snapshot = state.snapshot;
@@ -57,21 +54,12 @@ function formatDesktopTimestamp(value: string) {
   return date.toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
 }
 
-function initialViewMode(): ChronicleViewMode {
-  try {
-    const stored = window.localStorage.getItem(VIEW_MODE_STORAGE_KEY);
-    return stored === "detailed" ? "detailed" : "simple";
-  } catch {
-    return "simple";
-  }
-}
-
 function DesktopApp() {
   useEffect(() => { void window.kingdomDesktop.rendererReady().catch(console.error); }, []);
+  useEffect(() => { clearRetiredPreferences(); }, []);
   const [state, setState] = useState<DesktopRuntimeState | null>(null);
   const [appInfo, setAppInfo] = useState<DesktopAppInfo | null>(null);
   const [activeSection, setActiveSection] = useState<ChronicleTabId>("overview");
-  const [viewMode, setViewMode] = useState<ChronicleViewMode>(initialViewMode);
   const [utilityPanel, setUtilityPanel] = useState<UtilityPanel>(null);
   const panelRef = useRef<HTMLElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -209,11 +197,6 @@ function DesktopApp() {
     setMenuOpen(false);
   };
 
-  const chooseViewMode = (nextMode: ChronicleViewMode) => {
-    setViewMode(nextMode);
-    try { window.localStorage.setItem(VIEW_MODE_STORAGE_KEY, nextMode); }
-    catch { /* The preference still applies until the app closes. */ }
-  };
   const updatesBody = <UpdatesPanel state={updateState} pending={updatePending}
     onCheck={() => void updateAction(() => window.kingdomDesktop.checkForUpdates())}
     onDownload={() => void updateAction(() => window.kingdomDesktop.downloadUpdate())}
@@ -338,10 +321,6 @@ function DesktopApp() {
             <small title={state.message}>{connectionTitle} · Last report {formatDesktopTimestamp(snapshot.generatedAt)}</small>
           </div>
           <div className="desktop-command-actions">
-            <div className="desktop-density" role="group" aria-label="Reading depth">
-              <button type="button" aria-pressed={viewMode === "simple"} onClick={() => chooseViewMode("simple")}>Simple</button>
-              <button type="button" aria-pressed={viewMode === "detailed"} onClick={() => chooseViewMode("detailed")}>Detailed</button>
-            </div>
             <button type="button" className="desktop-refresh" onClick={() => void refresh()} disabled={busy}>
               <span aria-hidden="true">↻</span>{busy ? "Refreshing…" : "Refresh"}
             </button>
@@ -357,8 +336,6 @@ function DesktopApp() {
             desktopMode
             activeTab={activeSection}
             onActiveTabChange={setActiveSection}
-            viewMode={viewMode}
-            onViewModeChange={chooseViewMode}
           /></ItemSpriteContext>
         </div>
       </div>
@@ -371,13 +348,6 @@ function DesktopApp() {
           </header>
 
           {utilityPanel === "settings" && <div className="desktop-panel-body">
-            <section className="desktop-setting-group">
-              <div><h3>View</h3></div>
-              <div className="desktop-setting-options" role="group" aria-label="Reading depth setting">
-                <button type="button" aria-pressed={viewMode === "simple"} onClick={() => chooseViewMode("simple")}><strong>Simple</strong><small>Priorities, supplies and active problems</small></button>
-                <button type="button" aria-pressed={viewMode === "detailed"} onClick={() => chooseViewMode("detailed")}><strong>Detailed</strong><small>Complete inventories, rosters and records</small></button>
-              </div>
-            </section>
             <section className="desktop-setting-group">
               <div><h3>Minecraft instance</h3><p title={state.instancePath ?? undefined}>{state.instanceName ?? "Selected instance"}</p></div>
               <button type="button" className="desktop-panel-action" onClick={() => void choose()} disabled={busy}>{busy ? "Opening…" : "Switch instance"}</button>

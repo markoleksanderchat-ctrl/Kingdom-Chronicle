@@ -1,5 +1,3 @@
-import type { DashboardViewMode } from "@/lib/dashboard-model";
-
 export const chronicleTabs = [
   { id: "overview", label: "Overview" },
   { id: "projects", label: "Projects" },
@@ -10,7 +8,6 @@ export const chronicleTabs = [
 ] as const;
 
 export type ChronicleTabId = (typeof chronicleTabs)[number]["id"];
-export type ChronicleViewMode = DashboardViewMode;
 
 export function nextTabForKey(currentTab: ChronicleTabId, key: string): ChronicleTabId | null {
   const currentIndex = chronicleTabs.findIndex((tab) => tab.id === currentTab);
