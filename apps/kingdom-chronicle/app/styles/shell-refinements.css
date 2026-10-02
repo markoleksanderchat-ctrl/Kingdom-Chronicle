@@ -1,0 +1,75 @@
+footer { min-height: 82px; display: flex; align-items: center; gap: 17px; color: var(--muted); border-top: 1px solid var(--line); font-size: 11px; }
+footer strong { color: var(--gold); font-family: Georgia, serif; }
+footer span { flex: 1; }
+footer b { font: 700 10px Consolas, monospace; text-transform: uppercase; }
+
+/* Modern Medieval Chronicle: editorial parchment, restrained heraldic color, and calm hierarchy. */
+.topbar {
+  min-height: 108px;
+  gap: 16px;
+  border-bottom: 1px solid var(--line);
+}
+.topbar h1,
+.intro h2,
+.section-title h2,
+.side-section h2,
+.subsection-heading h3,
+.metric-row strong,
+.care-summary strong,
+.stat-grid strong,
+.stock-summary strong,
+.production-grid strong {
+  font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  letter-spacing: -.025em;
+}
+.topbar h1 { margin-top: 3px; color: #173e36; font-size: 31px; }
+.sigil {
+  width: 52px;
+  height: 52px;
+  padding: 4px;
+  background: #173e36;
+  border: 1px solid #173e36;
+  border-radius: 8px;
+  box-shadow: 0 5px 14px rgba(23, 62, 54, .16);
+}
+.sigil span { color: #173e36; background: #d9b35a; border: 0; border-radius: 4px; font-family: Georgia, serif; }
+.snapshot {
+  margin-left: auto;
+  padding: 10px 13px;
+  color: var(--ink);
+  background: rgba(255, 253, 248, .8);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+}
+.snapshot > span { background: var(--green); border-radius: 50%; box-shadow: 0 0 0 4px rgba(53, 106, 89, .12); }
+.snapshot.connection-checking > span { background: var(--gold); box-shadow: 0 0 0 4px rgba(184, 138, 43, .14); }
+.snapshot.connection-stale > span { background: var(--gold); box-shadow: 0 0 0 4px rgba(184, 138, 43, .14); }
+.snapshot.connection-degraded > span { background: var(--red); box-shadow: 0 0 0 4px rgba(164, 78, 67, .14); }
+.snapshot small { color: var(--muted); }
+.view-preference { display: grid; gap: 6px; }
+.view-preference > span { color: #68756f; font-size: 9px; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; }
+.view-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 330px;
+  gap: 6px;
+}
+.view-options button {
+  min-width: 0;
+  min-height: 52px;
+  padding: 8px 11px;
+  color: #5f6b66;
+  background: rgba(255, 253, 248, .7);
+  border: 1px solid #d4ccbe;
+  border-radius: 8px;
+  text-align: left;
+  cursor: pointer;
+}
+.view-options strong, .view-options small { display: block; }
+.view-options strong { color: #273a33; font: 750 11px/1.2 Inter, ui-sans-serif, system-ui, sans-serif; }
+.view-options small { margin-top: 3px; color: #738079; font-size: 9px; line-height: 1.25; }
+.view-options button[aria-pressed="true"] { color: #fffdf8; background: #173e36; border-color: #173e36; box-shadow: 0 4px 12px rgba(23, 62, 54, .16); }
+.view-options button[aria-pressed="true"] strong { color: #fffdf8; }
+.view-options button[aria-pressed="true"] small { color: #d6e2dc; }
+.view-options button:focus-visible { outline: 3px solid rgba(184, 138, 43, .55); outline-offset: 2px; }
+

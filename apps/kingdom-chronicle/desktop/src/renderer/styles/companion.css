@@ -1,0 +1,177 @@
+/* Desktop companion geometry. The shared web dashboard retains its own shell. */
+.desktop-shell {
+  --paper: #faf9f3;
+  --paper-2: var(--desktop-slot);
+  --line: #cccdbf;
+  --shadow: 0 2px 5px #20362b08;
+  --ink: var(--desktop-text);
+  --muted: var(--desktop-muted);
+}
+.desktop-shell :is(button, .desktop-brand > span, .desktop-nav-mark, .desktop-utility-nav button span,
+  .desktop-connection, .desktop-density, .desktop-setting-group, .desktop-privacy-card, .desktop-gate-card,
+  .desktop-about-mark) { border-radius: var(--desktop-radius); }
+.desktop-shell button:active:not(:disabled) { box-shadow: inset 0 1px 2px #07161040; }
+.desktop-shell button:focus-visible { outline: 2px solid var(--desktop-gold); outline-offset: 2px; }
+.desktop-shell .desktop-menu-content { visibility: visible; opacity: 1; }
+.desktop-shell .desktop-sidebar { background: var(--desktop-forest-950); box-shadow: none; }
+.desktop-shell .desktop-menu-scrim, .desktop-shell .desktop-overlay { backdrop-filter: none; }
+.desktop-shell .desktop-commandbar { padding-inline: 22px; }
+.desktop-shell .desktop-page-identity h1 { font-size: 25px; }
+.desktop-shell .desktop-panel > header { min-height: 76px; }
+.desktop-shell .desktop-panel-body { padding: 16px; gap: 12px; }
+.desktop-shell .desktop-setting-group { padding: 14px; gap: 10px; }
+.desktop-shell .desktop-refresh { min-height: 34px; box-shadow: none; }
+.desktop-shell main .intro {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px;
+  min-height: 130px; padding: 16px 20px; border: 1px solid #365b44;
+  border-left: 3px solid var(--desktop-gold); border-radius: var(--desktop-radius);
+  background: var(--desktop-forest-900); box-shadow: var(--shadow);
+}
+.desktop-shell main .intro h2 { margin: 3px 0; font-size: 26px; line-height: 1.15; }
+.desktop-shell main .intro .kicker { margin: 0; font-size: 9px; letter-spacing: .08em; }
+.desktop-shell main .intro p:not(.kicker) { margin: 5px 0 0; font-size: 11px; line-height: 1.4; }
+.desktop-shell .colony-metadata { color: #bccdc0 !important; }
+.desktop-shell .colony-condition { display: block; margin-top: 8px; color: #e7c475; font: 650 12px/1.3 "Segoe UI", sans-serif; }
+.desktop-shell main .intro aside { align-self: center; min-width: 170px; padding: 10px 14px; background: #102d27; border: 1px solid #507061; border-radius: 3px; box-shadow: inset 0 1px 0 #071d17; }
+.desktop-shell main .intro aside > span { display: none; }
+.desktop-shell main .intro aside strong { color: #d8d8c7; font: 700 11px/1.4 "Segoe UI", sans-serif; text-transform: uppercase; letter-spacing: .06em; }
+.desktop-shell main .intro aside small { display: block; margin-top: 4px; color: #aec0b5; font-size: 10px; }
+.desktop-shell main .metric-row { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0; margin: 12px 0; border: 1px solid var(--line); border-radius: 3px; background: var(--paper-2); }
+.desktop-shell main .metric-row article { display: grid; grid-template-columns: 24px minmax(0, 1fr); align-content: start; gap: 2px 8px; padding: 10px; border: 0; border-right: 1px solid var(--line); border-radius: 0; background: transparent; box-shadow: inset 0 1px 0 #fff; }
+.desktop-shell main .metric-row article:last-child { border-right: 0; }
+.desktop-shell main .metric-row :is(span, strong, small) { grid-column: 2; margin: 0; font-family: "Segoe UI", sans-serif; }
+.desktop-shell main .metric-row span { font-size: 9px; letter-spacing: 0; text-transform: none; }
+.desktop-shell main .metric-row strong { font-size: 18px; line-height: 1.35; white-space: nowrap; }
+.desktop-shell main .metric-row small { font-size: 9px; line-height: 1.35; overflow-wrap: anywhere; }
+.desktop-shell .metric-icon { grid-column: 1; grid-row: 1 / 4; align-self: center; color: #61765a; }
+.desktop-shell .metric-icon svg { width: 23px; height: 23px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+.desktop-shell main :is(.section, .side-section, .attention-strip) { padding: var(--desktop-space); border-radius: var(--desktop-radius); border-top-width: 1px; box-shadow: var(--shadow); }
+.desktop-shell main :is(.section-title h2, .side-section h2, .attention-strip h2) { font: 700 20px/1.25 var(--desktop-serif); margin-top: 0; }
+.desktop-shell main .panel-grid { gap: var(--desktop-space); }
+.desktop-shell main .overview-grid { align-items: start; }
+.desktop-shell #panel-realm .panel-grid > section { grid-column: auto; grid-row: auto; }
+.desktop-shell #panel-realm .panel-grid { align-items: start; }
+.desktop-shell main .research { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; }
+.desktop-shell main .research li { min-width: 0; padding: 7px 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; font: 500 11px/1.4 "Segoe UI", sans-serif; overflow-wrap: anywhere; }
+.desktop-shell main .facts :is(dt, dd) { font: 500 12px/1.4 "Segoe UI", sans-serif; }
+.desktop-shell main .facts dd { font-weight: 650; }
+.desktop-shell main :is(.section-title, .food-title) { margin-bottom: 10px; }
+.desktop-shell main :is(.section-title > span, .alerts span, .request-state, .building-list em) { border-radius: 3px; padding: 3px 6px; font: 650 9px/1.4 "Segoe UI", sans-serif; }
+.desktop-shell main .alerts { margin-bottom: 12px; padding: 8px 10px; border-radius: 3px; }
+.desktop-shell main .health-list { display: grid; gap: 0; }
+.desktop-shell main .health-list > div { display: grid; grid-template-columns: 105px minmax(60px, 1fr) auto; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.desktop-shell main .health-list > div > span:first-child { grid-column: 1; font: 500 11px "Segoe UI", sans-serif; }
+.desktop-shell main .health-list strong { grid-column: 3; grid-row: 1; font: 650 11px "Segoe UI", sans-serif; }
+.desktop-shell main .health-list .meter { grid-column: 2; grid-row: 1; margin: 0; }
+.desktop-shell main .meter { height: 7px; border-radius: 1px; border: 1px solid #a5b19b; background: #dedfd4; }
+.desktop-shell main .meter i { border-radius: 0; background: #66805a; }
+.desktop-shell main .meter i.warn { background: #b59446; }
+.desktop-shell main .requests-list { display: grid; gap: 0; }
+.desktop-shell main .request { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; align-items: center; gap: 10px; margin: 0; padding: 9px 0; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; }
+.desktop-shell main .request-copy strong { display: block; font: 650 12px/1.3 "Segoe UI", sans-serif; }
+.desktop-shell main .request > .request-copy { display: block; margin: 0; padding: 0; background: transparent; font-size: 10px; line-height: 1.4; }
+.desktop-shell main .request-copy p { margin: 3px 0; font-size: 10px; }
+.desktop-shell main .request-copy small { color: var(--muted); font-size: 10px; }
+.desktop-shell main .request .request-state { justify-self: end; color: #685629; background: #ece4cf; white-space: normal; max-width: 94px; }
+.desktop-shell main .food-runway { grid-template-columns: minmax(200px, .7fr) 1fr; gap: 12px; }
+.desktop-shell main .food-runway > div { padding: 12px 14px; border-left-width: 2px; border-radius: 3px; background: #365440; }
+.desktop-shell main .food-runway > div strong { margin: 5px 0; font: 700 26px var(--desktop-serif); }
+.desktop-shell main .food-runway dl { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
+.desktop-shell main .food-runway dl div { padding: 8px 0; border-bottom: 1px solid var(--line); background: transparent; border-radius: 0; }
+.desktop-shell main .food-runway dd { margin-top: 3px; font: 650 13px "Segoe UI", sans-serif; }
+.desktop-shell main .food-detail { gap: 12px; }
+.desktop-shell main :is(.food-detail h3, .inventory-groups h3, .stock-changes h3, .builder-materials h4) { margin: 0 0 8px; font: 650 11px "Segoe UI", sans-serif; color: #40533d; }
+.desktop-shell main .food-detail li { padding: 0; background: transparent; border-radius: 0; align-items: center; }
+.desktop-shell main .food-detail li > .resource-row { width: 100%; }
+.desktop-shell main .food-detail li > .minecraft-item-icon { flex: none; }
+.desktop-shell main :is(.menu-gap, .food-note) { grid-column: 1 / -1; }
+.desktop-shell main .menu-gap { padding: 10px 0 0; margin: 0; border-top: 1px solid var(--line); }
+.desktop-shell main .food-missing { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 12px; }
+.desktop-shell main .food-missing .resource-row { grid-template-columns: 28px minmax(0, 1fr) auto auto; }
+.desktop-shell main .resource-note { font-size: 8px; color: var(--red); }
+.desktop-shell .minecraft-item-icon { position: relative; display: inline-block; flex: none; vertical-align: middle; overflow: hidden; color: #71806b; }
+.desktop-shell .minecraft-item-icon :is(img, svg) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; }
+.desktop-shell main .stock-summary { display: flex; flex-wrap: wrap; gap: 12px 24px; margin: 0 0 12px; padding: 10px 0; border-block: 1px solid var(--line); }
+.desktop-shell main .stock-summary div { padding: 0; background: transparent; border-radius: 0; }
+.desktop-shell main .stock-summary span { min-height: 0; font-size: 9px; text-transform: none; }
+.desktop-shell main .stock-summary strong { margin-top: 3px; font: 650 15px "Segoe UI", sans-serif; }
+.desktop-shell main .stock-summary small { color: var(--muted); font-size: 10px; }
+.desktop-shell main .stock-search { display: block; padding: 0; margin-bottom: 14px; background: transparent; }
+.desktop-shell main .stock-search > span { display: block; margin-bottom: 5px; font-size: 10px; }
+.desktop-shell main .stock-search input { min-height: 36px; border-radius: 3px; border-color: var(--desktop-inset); box-shadow: inset 0 1px 2px #243c2b0d; font-size: 12px; }
+.desktop-shell main .stock-list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 12px; max-height: 540px; scrollbar-width: thin; }
+.desktop-shell main .stock-list > div, .desktop-shell main .resource-row { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; align-items: center; gap: 8px; min-width: 0; min-height: 44px; padding: 5px 6px; border: 0; border-bottom: 1px solid var(--line); border-radius: 2px; background: transparent; }
+.desktop-shell main .resource-row:hover { background: #e6ebde; box-shadow: inset 0 0 0 1px #b7c4a8; }
+.desktop-shell main .resource-row .minecraft-item-icon { display: inline-block; }
+.desktop-shell main .resource-row .resource-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 600 11px/1.35 "Segoe UI", sans-serif; }
+.desktop-shell main .resource-row .source-badge { margin-top: 2px; font: 9px "Segoe UI", sans-serif; color: var(--muted); }
+.desktop-shell main .resource-row strong { font: 650 13px "Segoe UI", sans-serif; font-variant-numeric: tabular-nums; }
+.desktop-shell main .resource-row.out-of-stock { color: #7d8176; }
+.desktop-shell main .resource-row.out-of-stock .minecraft-item-icon { opacity: .45; }
+.desktop-shell main .inventory-groups { display: grid; gap: 18px; }
+.desktop-shell main .inventory-groups .muted { font-size: 10px; margin: 4px 0 8px; }
+.desktop-shell main .build-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.desktop-shell main .build-card { display: grid; grid-template-columns: minmax(220px, 1.3fr) minmax(160px, 1fr) minmax(180px, 1fr); gap: 10px 20px; padding: 12px; border-radius: 3px; box-shadow: none; background: var(--paper-2); border: 1px solid var(--line); }
+.desktop-shell main .build-head { grid-column: 1 / -1; margin-bottom: 0; }
+.desktop-shell main .build-head h3 { font: 650 15px "Segoe UI", sans-serif; }
+.desktop-shell main :is(.block-icon, .mini-block) { background: #e1e5d7; border: 1px solid var(--desktop-inset); border-radius: 3px; box-shadow: inset 0 1px 0 white; }
+.desktop-shell main :is(.phase, .build-progress, .build-task) { margin: 0; padding: 5px 0; font-size: 11px; }
+.desktop-shell main .build-task :is(span, strong) { display: block; margin-bottom: 3px; }
+.desktop-shell main .builder-materials { grid-column: 1 / -1; padding-top: 8px; border-top: 1px solid var(--line); }
+.desktop-shell main .builder-materials > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 12px; }
+.desktop-shell main .builder-materials .resource-row { grid-template-columns: 28px minmax(0, 1fr) auto auto; }
+.desktop-shell main .builder-materials small { font-size: 10px; color: var(--muted); }
+.desktop-shell main :is(.building-summary, .care-summary) { gap: 0; border-block: 1px solid var(--line); margin: 10px 0; }
+.desktop-shell main :is(.building-summary div, .care-summary div) { padding: 9px 12px; border-radius: 0; background: transparent; border-right: 1px solid var(--line); }
+.desktop-shell main .building-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 14px; }
+.desktop-shell main .building-list article { min-width: 0; padding: 9px 0; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; }
+.desktop-shell main .building-list article strong { font: 650 12px "Segoe UI", sans-serif; }
+.desktop-shell main .building-list article small { font: 10px "Segoe UI", sans-serif; }
+.desktop-shell main :is(td, th) { padding: 9px 10px; font-family: "Segoe UI", sans-serif; font-size: 11px; }
+.desktop-shell main td strong { font-family: "Segoe UI", sans-serif; }
+.desktop-shell main :is(.stat-grid strong, .production-grid strong, .facts dd, .benefit-list b, .defense-breakdown strong, .livestock-list strong, .readiness-score strong) { font-family: "Segoe UI", sans-serif; }
+.desktop-shell main :is(.production-grid div, .stat-grid div, .benefit-list li, .status-list li, .livestock-huts > li, .forecast-banner, .readiness-score, .readiness-actions li, .context, .empty-state, .stock-note, .food-note) { border-radius: 3px; padding: 8px 10px; }
+.desktop-shell main .production-grid strong { font-size: 19px; }
+.desktop-shell main .production-grid span { min-height: 0; }
+.desktop-shell main .readiness-score { padding: 12px; }
+.desktop-shell main .attention-citizens article { padding: 8px; border-radius: 3px; }
+.desktop-shell main .attention-strip { display: grid; grid-template-columns: 150px minmax(0, 1fr); align-items: start; gap: 12px; }
+.desktop-shell main .attention-strip h2 { font-size: 17px; margin: 6px 0; }
+.desktop-shell main .attention-citizens { grid-template-columns: 1fr; gap: 0; }
+.desktop-shell main .attention-citizens article { display: grid; grid-template-columns: minmax(140px, 1fr) 1fr 90px 80px; align-items: center; gap: 10px; padding: 6px 8px; border-bottom: 1px solid var(--line); background: transparent; }
+.desktop-shell main .attention-citizens article :is(strong, span, b, small) { margin: 0; font: 600 11px "Segoe UI", sans-serif; }
+.desktop-shell main .attention-citizens article b { color: var(--red); }
+.desktop-shell main .attention-strip .trend-note { grid-column: 1 / -1; margin: 0; }
+.desktop-shell .desktop-nav button.active .desktop-nav-mark { color: var(--desktop-gold); background: #203d2f; border-color: #6e744d; }
+.desktop-shell main .trend-note { font-size: 10px; }
+.desktop-shell main .tab-panel { animation: none; }
+.desktop-shell main[data-view-mode="simple"] .secondary-metric { display: grid; }
+@media (max-width: 1100px) {
+  .desktop-shell main .metric-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .desktop-shell main .metric-row article:nth-child(-n+3) { border-bottom: 1px solid var(--line); }
+  .desktop-shell main .stock-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .desktop-shell main .food-missing { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 820px) {
+  .desktop-shell main .intro { grid-template-columns: 1fr; padding: 14px; gap: 10px; }
+  .desktop-shell main .intro aside { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 8px 10px; }
+  .desktop-shell main .intro aside small { margin: 0; }
+  .desktop-shell main .stock-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .desktop-shell main .build-card { grid-template-columns: 1fr 1fr; }
+  .desktop-shell main .building-list { grid-template-columns: 1fr; }
+  .desktop-shell main .attention-strip { grid-template-columns: 1fr; }
+  .desktop-shell main .attention-citizens article { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 580px) {
+  .desktop-shell .desktop-content, .desktop-shell .desktop-commandbar { padding-inline: 10px; }
+  .desktop-shell main .metric-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .desktop-shell main .metric-row article { border-bottom: 1px solid var(--line); }
+  .desktop-shell main :is(.stock-list, .food-missing, .builder-materials > div, .build-card, .food-runway) { grid-template-columns: 1fr; }
+  .desktop-shell main .intro h2 { font-size: 23px; }
+  .desktop-shell main .request { grid-template-columns: 28px minmax(0, 1fr); }
+  .desktop-shell main .request-state { grid-column: 2; justify-self: start; }
+}
+.desktop-report-warning { margin: 0 0 12px; padding: 10px 12px; border-left: 3px solid var(--desktop-gold); background: var(--paper); font-size: 12px; }
+.desktop-shell main .resource-row .source-badge { display: block !important; width: max-content; max-width: 100%; padding: 0; border-radius: 0; background: transparent; font: 9px/1.3 "Segoe UI", sans-serif !important; color: var(--muted) !important; }
+
+

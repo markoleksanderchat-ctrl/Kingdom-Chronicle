@@ -1,0 +1,6 @@
+* { box-sizing: border-box; }
+html { background: var(--bg); scroll-behavior: smooth; }
+body { min-width: 0; margin: 0; overflow-x: hidden; background: var(--bg); color: var(--ink); font: 15px/1.58 Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; letter-spacing: -.005em; }
+main { width: min(1340px, 100%); margin: auto; padding-inline: 24px; }
+.kicker { margin: 0; color: #68756f; font: 750 10px/1.4 Inter, ui-sans-serif, system-ui, sans-serif; letter-spacing: .11em; text-transform: uppercase; overflow-wrap: anywhere; }
+

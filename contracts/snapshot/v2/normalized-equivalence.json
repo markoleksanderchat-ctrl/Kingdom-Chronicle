@@ -1,0 +1,12 @@
+{
+  "policyVersion": 1,
+  "ignoredJsonPointers": [
+    "/generatedAt",
+    "/trigger",
+    "/bridgeVersion",
+    "/fingerprint"
+  ],
+  "arrayOrderSignificant": true,
+  "objectPropertyOrderSignificant": false,
+  "ignoreSameNamedNestedFields": false
+}

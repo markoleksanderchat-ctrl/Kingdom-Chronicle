@@ -1,0 +1,19 @@
+@keyframes desktop-overlay-in { from { opacity: 0; } }
+@keyframes desktop-panel-in { from { transform: translateX(24px); opacity: .7; } }
+@keyframes desktop-spin { to { transform: rotate(360deg); } }
+@keyframes desktop-loading { from { transform: translateX(0); } to { transform: translateX(122%); } }
+
+@media (max-width: 1040px) {
+  .desktop-commandbar { padding-inline: 20px; }
+  .desktop-content { padding-inline: 20px; }
+}
+
+@media (max-width: 820px) {
+  .desktop-commandbar { align-items: flex-start; flex-direction: column; gap: 10px; padding-block: 12px; }
+  .desktop-command-actions { width: 100%; justify-content: space-between; }
+  .desktop-page-identity small { white-space: normal; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-delay: 0ms !important; transition-duration: .01ms !important; animation-delay: 0ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+}

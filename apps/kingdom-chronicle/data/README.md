@@ -1,0 +1,1 @@
+This checked-in Example Colony fixture is sanitized from the generic contract test fixture in contracts/snapshot/v2/fixtures/normal.json. It contains no live user report. Importing a local report replaces this development fixture; do not commit the imported data.

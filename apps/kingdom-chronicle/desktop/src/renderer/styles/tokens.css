@@ -1,0 +1,16 @@
+:root {
+  --desktop-forest-950: #102d27;
+  --desktop-forest-900: #173e36;
+  --desktop-forest-800: #245447;
+  --desktop-gold: #d9b35a;
+  --desktop-canvas: #f1f0ec;
+  --desktop-line: #dcded9;
+  --desktop-text: #21302b;
+  --desktop-muted: #6a7671;
+  --desktop-slot: #ebe9df;
+  --desktop-inset: #b8bba9;
+  --desktop-radius: 5px;
+  --desktop-space: 14px;
+  --desktop-serif: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+}
+

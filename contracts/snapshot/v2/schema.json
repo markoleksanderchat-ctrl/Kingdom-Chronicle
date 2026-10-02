@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.colonybridge.local/snapshot/v2/schema.json",
+  "title": "Colony Bridge snapshot schema 2",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schemaVersion", "bridgeVersion", "generatedAt", "trigger", "fingerprint", "game", "world", "colony", "summary", "citizens", "buildings", "requests", "construction", "environment", "territory", "research", "statistics", "capabilities", "warnings", "errors"],
+  "properties": {
+    "schemaVersion": { "const": 2 },
+    "bridgeVersion": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "generatedAt": { "type": "string", "format": "date-time", "maxLength": 64 },
+    "trigger": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "fingerprint": { "type": ["string", "null"], "maxLength": 128 },
+    "game": { "$ref": "#/$defs/game" },
+    "world": { "$ref": "#/$defs/world" },
+    "colony": { "$ref": "#/$defs/colony" },
+    "summary": { "$ref": "#/$defs/summary" },
+    "citizens": { "type": "array", "maxItems": 10000, "items": { "$ref": "#/$defs/citizen" } },
+    "buildings": { "type": "array", "maxItems": 10000, "items": { "$ref": "#/$defs/building" } },
+    "requests": { "type": "array", "maxItems": 10000, "items": { "$ref": "#/$defs/request" } },
+    "construction": { "type": "array", "maxItems": 10000, "items": { "$ref": "#/$defs/construction" } },
+    "environment": { "$ref": "#/$defs/environment" },
+    "territory": { "$ref": "#/$defs/territory" },
+    "livestock": { "$ref": "#/$defs/livestock" },
+    "research": { "$ref": "#/$defs/research" },
+    "statistics": { "$ref": "#/$defs/nonNegativeIntegerMap" },
+    "recentStatistics": { "$ref": "#/$defs/recentStatistics" },
+    "defenseStatistics": { "$ref": "#/$defs/defenseStatistics" },
+    "foodSupply": { "$ref": "#/$defs/foodSupply" },
+    "stockLedger": { "$ref": "#/$defs/stockLedger" },
+    "capabilities": { "type": "object", "additionalProperties": { "$ref": "#/$defs/capability" } },
+    "warnings": { "type": "array", "maxItems": 10000, "items": { "$ref": "#/$defs/message" } },
+    "errors": { "type": "array", "maxItems": 10000, "items": { "$ref": "#/$defs/message" } }
+  },
+  "$defs": {
+    "nullableString": { "type": ["string", "null"], "maxLength": 8192 },
+    "nullableNumber": { "type": ["number", "null"] },
+    "nullableInteger": { "type": ["integer", "null"] },
+    "nullableBoolean": { "type": ["boolean", "null"] },
+    "nonNegativeInteger": { "type": "integer", "minimum": 0 },
+    "nonNegativeNullableInteger": { "type": ["integer", "null"], "minimum": 0 },
+    "stringArray": { "type": "array", "maxItems": 10000, "items": { "type": "string", "maxLength": 8192 } },
+    "integerArray": { "type": "array", "maxItems": 10000, "items": { "type": "integer" } },
+    "nonNegativeIntegerMap": { "type": "object", "maxProperties": 10000, "additionalProperties": { "type": "integer", "minimum": 0 } },
+    "nullableNonNegativeIntegerMap": { "type": ["object", "null"], "maxProperties": 10000, "additionalProperties": { "type": "integer", "minimum": 0 } },
+    "objectMap": { "type": "object", "maxProperties": 10000, "additionalProperties": true },
+    "position": {
+      "type": ["object", "null"], "additionalProperties": true,
+      "required": ["x", "y", "z"],
+      "properties": { "x": { "$ref": "#/$defs/nullableInteger" }, "y": { "$ref": "#/$defs/nullableInteger" }, "z": { "$ref": "#/$defs/nullableInteger" } }
+    },
+    "game": {
+      "type": "object", "additionalProperties": true,
+      "required": ["minecraftVersion", "loader", "loaderVersion", "mineColoniesVersion"],
+      "properties": { "minecraftVersion": { "$ref": "#/$defs/nullableString" }, "loader": { "$ref": "#/$defs/nullableString" }, "loaderVersion": { "$ref": "#/$defs/nullableString" }, "mineColoniesVersion": { "$ref": "#/$defs/nullableString" } }
+    },
+    "world": {
+      "type": "object", "additionalProperties": true,
+      "required": ["saveName", "worldId", "dimension", "dedicatedServer"],
+      "properties": { "saveName": { "$ref": "#/$defs/nullableString" }, "worldId": { "$ref": "#/$defs/nullableString" }, "dimension": { "$ref": "#/$defs/nullableString" }, "dedicatedServer": { "type": "boolean" } }
+    },
+    "colony": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "name", "ownerUuid", "ownerName", "dimension", "center", "claimedChunkCount", "citizenCount", "maxCitizenCapacity", "overallHappiness", "active", "underAttack", "raided", "abandoned", "state", "flags"],
+      "properties": {
+        "id": { "$ref": "#/$defs/nullableInteger" }, "name": { "$ref": "#/$defs/nullableString" }, "ownerUuid": { "$ref": "#/$defs/nullableString" }, "ownerName": { "$ref": "#/$defs/nullableString" }, "dimension": { "$ref": "#/$defs/nullableString" }, "center": { "$ref": "#/$defs/position" },
+        "claimedChunkCount": { "$ref": "#/$defs/nonNegativeNullableInteger" }, "citizenCount": { "$ref": "#/$defs/nonNegativeNullableInteger" }, "maxCitizenCapacity": { "$ref": "#/$defs/nonNegativeNullableInteger" }, "overallHappiness": { "$ref": "#/$defs/nullableNumber" },
+        "active": { "$ref": "#/$defs/nullableBoolean" }, "underAttack": { "$ref": "#/$defs/nullableBoolean" }, "raided": { "$ref": "#/$defs/nullableBoolean" }, "abandoned": { "$ref": "#/$defs/nullableBoolean" }, "state": { "$ref": "#/$defs/nullableString" }, "flags": { "$ref": "#/$defs/objectMap" }
+      }
+    },
+    "summary": {
+      "type": "object", "additionalProperties": true,
+      "required": ["citizenCount", "citizenCapacity", "employedCitizens", "unemployedCitizens", "children", "guards", "buildingCount", "staffedBuildings", "unstaffedBuildings", "activeRequests", "activeConstructionProjects"],
+      "properties": {
+        "citizenCount": { "$ref": "#/$defs/nonNegativeInteger" }, "citizenCapacity": { "$ref": "#/$defs/nonNegativeNullableInteger" }, "employedCitizens": { "$ref": "#/$defs/nonNegativeInteger" }, "unemployedCitizens": { "$ref": "#/$defs/nonNegativeInteger" }, "children": { "$ref": "#/$defs/nonNegativeInteger" }, "guards": { "$ref": "#/$defs/nonNegativeInteger" }, "buildingCount": { "$ref": "#/$defs/nonNegativeInteger" }, "staffedBuildings": { "$ref": "#/$defs/nonNegativeInteger" }, "unstaffedBuildings": { "$ref": "#/$defs/nonNegativeInteger" }, "activeRequests": { "$ref": "#/$defs/nonNegativeInteger" }, "activeConstructionProjects": { "$ref": "#/$defs/nonNegativeInteger" }
+      }
+    },
+    "citizen": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "uuid", "name", "ageCategory", "sex", "currentJob", "jobRegistryId", "guard", "workplaceBuildingId", "homeBuildingId", "health", "maxHealth", "happiness", "saturation", "activity", "employed", "child", "alive", "sick", "injured", "sleeping", "idle", "working", "requestingItem", "skills", "currentPosition", "lastKnownPosition", "details"],
+      "properties": {
+        "id": { "$ref": "#/$defs/nullableInteger" }, "uuid": { "$ref": "#/$defs/nullableString" }, "name": { "$ref": "#/$defs/nullableString" }, "ageCategory": { "$ref": "#/$defs/nullableString" }, "sex": { "$ref": "#/$defs/nullableString" }, "currentJob": { "$ref": "#/$defs/nullableString" }, "jobRegistryId": { "$ref": "#/$defs/nullableString" }, "guard": { "$ref": "#/$defs/nullableBoolean" }, "workplaceBuildingId": { "$ref": "#/$defs/nullableString" }, "homeBuildingId": { "$ref": "#/$defs/nullableString" }, "health": { "$ref": "#/$defs/nullableNumber" }, "maxHealth": { "$ref": "#/$defs/nullableNumber" }, "happiness": { "$ref": "#/$defs/nullableNumber" }, "saturation": { "$ref": "#/$defs/nullableNumber" }, "activity": { "$ref": "#/$defs/nullableString" }, "employed": { "$ref": "#/$defs/nullableBoolean" }, "child": { "$ref": "#/$defs/nullableBoolean" }, "alive": { "$ref": "#/$defs/nullableBoolean" }, "sick": { "$ref": "#/$defs/nullableBoolean" }, "injured": { "$ref": "#/$defs/nullableBoolean" }, "sleeping": { "$ref": "#/$defs/nullableBoolean" }, "idle": { "$ref": "#/$defs/nullableBoolean" }, "working": { "$ref": "#/$defs/nullableBoolean" }, "requestingItem": { "$ref": "#/$defs/nullableBoolean" }, "skills": { "$ref": "#/$defs/nonNegativeIntegerMap" }, "currentPosition": { "$ref": "#/$defs/position" }, "lastKnownPosition": { "$ref": "#/$defs/position" }, "details": { "$ref": "#/$defs/objectMap" }
+      }
+    },
+    "building": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "registryId", "type", "level", "maxLevel", "position", "dimension", "assignedWorkerIds", "workplaceWorkerIds", "workerCapacity", "staffed", "active", "upgrading", "beingBuilt", "structurallyComplete", "targetLevel", "assignedBuilderCitizenId", "openRequestIds", "state"],
+      "properties": {
+        "id": { "$ref": "#/$defs/nullableString" }, "registryId": { "$ref": "#/$defs/nullableString" }, "type": { "$ref": "#/$defs/nullableString" }, "level": { "$ref": "#/$defs/nullableInteger" }, "maxLevel": { "$ref": "#/$defs/nullableInteger" }, "position": { "$ref": "#/$defs/position" }, "dimension": { "$ref": "#/$defs/nullableString" }, "assignedWorkerIds": { "$ref": "#/$defs/integerArray" }, "workplaceWorkerIds": { "$ref": "#/$defs/integerArray" }, "workerCapacity": { "$ref": "#/$defs/nullableInteger" }, "staffed": { "$ref": "#/$defs/nullableBoolean" }, "active": { "$ref": "#/$defs/nullableBoolean" }, "upgrading": { "$ref": "#/$defs/nullableBoolean" }, "beingBuilt": { "$ref": "#/$defs/nullableBoolean" }, "structurallyComplete": { "$ref": "#/$defs/nullableBoolean" }, "targetLevel": { "$ref": "#/$defs/nullableInteger" }, "assignedBuilderCitizenId": { "$ref": "#/$defs/nullableInteger" }, "openRequestIds": { "$ref": "#/$defs/stringArray" }, "state": { "$ref": "#/$defs/objectMap" }
+      }
+    },
+    "request": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "type", "requestingCitizenId", "requestingBuildingId", "requestedItemRegistryId", "requestedItemDisplayName", "requestedQuantity", "remainingQuantity", "state", "parentRequestId", "childRequestIds", "resolver", "complete", "cancelled", "assigned", "inProgress", "unresolved", "details"],
+      "properties": {
+        "id": { "$ref": "#/$defs/nullableString" }, "type": { "$ref": "#/$defs/nullableString" }, "requestingCitizenId": { "$ref": "#/$defs/nullableInteger" }, "requestingBuildingId": { "$ref": "#/$defs/nullableString" }, "requestedItemRegistryId": { "$ref": "#/$defs/nullableString" }, "requestedItemDisplayName": { "$ref": "#/$defs/nullableString" }, "requestedQuantity": { "$ref": "#/$defs/nullableNumber" }, "remainingQuantity": { "$ref": "#/$defs/nullableNumber" }, "state": { "$ref": "#/$defs/nullableString" }, "parentRequestId": { "$ref": "#/$defs/nullableString" }, "childRequestIds": { "$ref": "#/$defs/stringArray" }, "resolver": { "$ref": "#/$defs/nullableString" }, "complete": { "$ref": "#/$defs/nullableBoolean" }, "cancelled": { "$ref": "#/$defs/nullableBoolean" }, "assigned": { "$ref": "#/$defs/nullableBoolean" }, "inProgress": { "$ref": "#/$defs/nullableBoolean" }, "unresolved": { "$ref": "#/$defs/nullableBoolean" }, "details": { "$ref": "#/$defs/objectMap" }
+      }
+    },
+    "construction": {
+      "type": "object", "additionalProperties": true,
+      "required": ["buildingId", "projectType", "currentLevel", "targetLevel", "assignedBuilderCitizenId", "builderHutId", "projectState", "requiredResources", "deliveredResources", "missingResources", "progress", "details"],
+      "properties": {
+        "buildingId": { "$ref": "#/$defs/nullableString" }, "projectType": { "$ref": "#/$defs/nullableString" }, "currentLevel": { "$ref": "#/$defs/nullableInteger" }, "targetLevel": { "$ref": "#/$defs/nullableInteger" }, "assignedBuilderCitizenId": { "$ref": "#/$defs/nullableInteger" }, "builderHutId": { "$ref": "#/$defs/nullableString" }, "projectState": { "$ref": "#/$defs/nullableString" }, "requiredResources": { "$ref": "#/$defs/nullableNonNegativeIntegerMap" }, "deliveredResources": { "$ref": "#/$defs/nullableNonNegativeIntegerMap" }, "missingResources": { "$ref": "#/$defs/nullableNonNegativeIntegerMap" }, "progress": { "$ref": "#/$defs/nullableNumber" }, "details": { "$ref": "#/$defs/objectMap" }
+      }
+    },
+    "environment": {
+      "type": "object", "additionalProperties": true,
+      "required": ["centerBiome", "sampledBiomes", "worldDay", "dayTimeTicks", "gameTimeTicks", "moonPhase", "daylight", "raining", "thundering"],
+      "properties": { "centerBiome": { "$ref": "#/$defs/nullableString" }, "sampledBiomes": { "$ref": "#/$defs/stringArray" }, "worldDay": { "$ref": "#/$defs/nullableInteger" }, "dayTimeTicks": { "$ref": "#/$defs/nullableInteger" }, "gameTimeTicks": { "$ref": "#/$defs/nullableInteger" }, "moonPhase": { "$ref": "#/$defs/nullableInteger" }, "daylight": { "$ref": "#/$defs/nullableBoolean" }, "raining": { "$ref": "#/$defs/nullableBoolean" }, "thundering": { "$ref": "#/$defs/nullableBoolean" } }
+    },
+    "territory": {
+      "type": "object", "additionalProperties": true,
+      "required": ["claimedChunks", "approximateClaimedBlocks", "minChunkX", "maxChunkX", "minChunkZ", "maxChunkZ", "widthChunks", "lengthChunks", "loadedChunks", "ticketedChunks"],
+      "properties": { "claimedChunks": { "$ref": "#/$defs/nullableInteger" }, "approximateClaimedBlocks": { "$ref": "#/$defs/nullableInteger" }, "minChunkX": { "$ref": "#/$defs/nullableInteger" }, "maxChunkX": { "$ref": "#/$defs/nullableInteger" }, "minChunkZ": { "$ref": "#/$defs/nullableInteger" }, "maxChunkZ": { "$ref": "#/$defs/nullableInteger" }, "widthChunks": { "$ref": "#/$defs/nullableInteger" }, "lengthChunks": { "$ref": "#/$defs/nullableInteger" }, "loadedChunks": { "$ref": "#/$defs/nullableInteger" }, "ticketedChunks": { "$ref": "#/$defs/nullableInteger" } }
+    },
+    "livestock": {
+      "type": "object", "additionalProperties": true,
+      "required": ["total", "housed", "withoutHome", "byType", "huts"],
+      "properties": { "total": { "$ref": "#/$defs/nullableInteger" }, "housed": { "$ref": "#/$defs/nullableInteger" }, "withoutHome": { "$ref": "#/$defs/nullableInteger" }, "byType": { "$ref": "#/$defs/nonNegativeIntegerMap" }, "huts": { "type": "array", "maxItems": 10000, "items": { "$ref": "#/$defs/livestockHut" } } }
+    },
+    "livestockHut": {
+      "type": "object", "additionalProperties": true,
+      "required": ["buildingId", "buildingType", "name", "position", "workerIds", "total", "byType"],
+      "properties": { "buildingId": { "$ref": "#/$defs/nullableString" }, "buildingType": { "$ref": "#/$defs/nullableString" }, "name": { "$ref": "#/$defs/nullableString" }, "position": { "$ref": "#/$defs/position" }, "workerIds": { "$ref": "#/$defs/integerArray" }, "total": { "$ref": "#/$defs/nullableInteger" }, "byType": { "$ref": "#/$defs/nonNegativeIntegerMap" } }
+    },
+    "research": {
+      "type": "object", "additionalProperties": true,
+      "required": ["completed", "inProgress", "effects"],
+      "properties": { "completed": { "$ref": "#/$defs/stringArray" }, "inProgress": { "type": "array", "maxItems": 10000, "items": { "$ref": "#/$defs/researchProject" } }, "effects": { "type": "array", "maxItems": 10000, "items": { "$ref": "#/$defs/researchEffect" } } }
+    },
+    "researchProject": {
+      "type": "object", "additionalProperties": true, "required": ["id", "branch", "depth", "progress", "state"],
+      "properties": { "id": { "$ref": "#/$defs/nullableString" }, "branch": { "$ref": "#/$defs/nullableString" }, "depth": { "$ref": "#/$defs/nullableInteger" }, "progress": { "$ref": "#/$defs/nullableInteger" }, "state": { "$ref": "#/$defs/nullableString" } }
+    },
+    "researchEffect": {
+      "type": "object", "additionalProperties": true, "required": ["id", "nameTranslationKey", "subtitleTranslationKey", "strength"],
+      "properties": { "id": { "$ref": "#/$defs/nullableString" }, "nameTranslationKey": { "$ref": "#/$defs/nullableString" }, "subtitleTranslationKey": { "$ref": "#/$defs/nullableString" }, "strength": { "$ref": "#/$defs/nullableNumber" } }
+    },
+    "recentStatistics": {
+      "type": "object", "additionalProperties": true, "required": ["currentColonyDay", "windowDays", "today", "recentWindow"],
+      "properties": { "currentColonyDay": { "$ref": "#/$defs/nullableInteger" }, "windowDays": { "type": "integer", "minimum": 1 }, "today": { "$ref": "#/$defs/nonNegativeIntegerMap" }, "recentWindow": { "$ref": "#/$defs/nonNegativeIntegerMap" } }
+    },
+    "defenseBreakdown": {
+      "type": "object", "additionalProperties": true, "required": ["total", "detailedTotal", "raiders", "hostile", "peacefulOrOther", "unclassified", "reconciled", "byEntity", "byEntityCategory"],
+      "properties": { "total": { "$ref": "#/$defs/nonNegativeNullableInteger" }, "detailedTotal": { "$ref": "#/$defs/nonNegativeNullableInteger" }, "raiders": { "$ref": "#/$defs/nonNegativeNullableInteger" }, "hostile": { "$ref": "#/$defs/nonNegativeNullableInteger" }, "peacefulOrOther": { "$ref": "#/$defs/nonNegativeNullableInteger" }, "unclassified": { "$ref": "#/$defs/nonNegativeNullableInteger" }, "reconciled": { "$ref": "#/$defs/nullableBoolean" }, "byEntity": { "$ref": "#/$defs/nonNegativeIntegerMap" }, "byEntityCategory": { "type": "object", "maxProperties": 10000, "additionalProperties": { "enum": ["minecolonies_raider", "monster_or_hostile", "neutral_or_peaceful", "unclassified"] } } }
+    },
+    "defenseStatistics": {
+      "type": "object", "additionalProperties": true, "required": ["lifetime", "today", "recentWindow", "currentDay", "windowDays", "animalsButchered", "animalsButcheredToday", "animalsButcheredRecentWindow"],
+      "properties": { "lifetime": { "$ref": "#/$defs/defenseBreakdown" }, "today": { "$ref": "#/$defs/defenseBreakdown" }, "recentWindow": { "$ref": "#/$defs/defenseBreakdown" }, "currentDay": { "$ref": "#/$defs/nullableInteger" }, "windowDays": { "type": "integer", "minimum": 1 }, "animalsButchered": { "$ref": "#/$defs/nonNegativeInteger" }, "animalsButcheredToday": { "$ref": "#/$defs/nonNegativeInteger" }, "animalsButcheredRecentWindow": { "$ref": "#/$defs/nonNegativeInteger" } }
+    },
+    "foodSupply": {
+      "type": "object", "additionalProperties": true, "required": ["storedServings", "distinctFoodTypes", "servingsByItem", "mealsServedToday", "mealsServedSample", "sampleDays", "averageMealsPerDay", "estimatedDaysRemaining", "estimatedRunoutColonyDay", "status", "confidence", "diningHallsScanned", "menuApprovedFoodTypes", "approvedMenuItems", "scannedBuildings", "scannedSlots", "truncated"],
+      "properties": { "storedServings": { "$ref": "#/$defs/nonNegativeNullableInteger" }, "distinctFoodTypes": { "$ref": "#/$defs/nonNegativeInteger" }, "servingsByItem": { "$ref": "#/$defs/nonNegativeIntegerMap" }, "mealsServedToday": { "$ref": "#/$defs/nonNegativeNullableInteger" }, "mealsServedSample": { "$ref": "#/$defs/nonNegativeNullableInteger" }, "sampleDays": { "$ref": "#/$defs/nonNegativeInteger" }, "averageMealsPerDay": { "$ref": "#/$defs/nullableNumber" }, "estimatedDaysRemaining": { "$ref": "#/$defs/nullableNumber" }, "estimatedRunoutColonyDay": { "$ref": "#/$defs/nullableInteger" }, "status": { "type": "string", "maxLength": 64 }, "confidence": { "type": "string", "maxLength": 64 }, "diningHallsScanned": { "$ref": "#/$defs/nonNegativeInteger" }, "menuApprovedFoodTypes": { "$ref": "#/$defs/nonNegativeInteger" }, "approvedMenuItems": { "$ref": "#/$defs/stringArray" }, "scannedBuildings": { "$ref": "#/$defs/nonNegativeInteger" }, "scannedSlots": { "$ref": "#/$defs/nonNegativeInteger" }, "truncated": { "type": "boolean" } }
+    },
+    "stockLedger": {
+      "type": "object", "additionalProperties": true, "required": ["currentColonyDay", "refreshedColonyDay", "nextRefreshColonyDay", "cacheAgeDays", "refreshIntervalDays", "totalItems", "distinctItemTypes", "exportedItemTypes", "omittedItemTypes", "itemsById", "scannedBuildings", "scannedHandlers", "scannedSlots", "handlersByBuildingType", "slotsByBuildingType", "startupScan", "truncated"],
+      "properties": { "currentColonyDay": { "$ref": "#/$defs/nullableInteger" }, "refreshedColonyDay": { "$ref": "#/$defs/nullableInteger" }, "nextRefreshColonyDay": { "$ref": "#/$defs/nullableInteger" }, "cacheAgeDays": { "$ref": "#/$defs/nullableInteger" }, "refreshIntervalDays": { "type": "integer", "minimum": 1 }, "totalItems": { "$ref": "#/$defs/nonNegativeNullableInteger" }, "distinctItemTypes": { "$ref": "#/$defs/nonNegativeInteger" }, "exportedItemTypes": { "$ref": "#/$defs/nonNegativeInteger" }, "omittedItemTypes": { "$ref": "#/$defs/nonNegativeInteger" }, "itemsById": { "$ref": "#/$defs/nonNegativeIntegerMap" }, "scannedBuildings": { "$ref": "#/$defs/nonNegativeInteger" }, "scannedHandlers": { "$ref": "#/$defs/nonNegativeInteger" }, "scannedSlots": { "$ref": "#/$defs/nonNegativeInteger" }, "handlersByBuildingType": { "$ref": "#/$defs/nonNegativeIntegerMap" }, "slotsByBuildingType": { "$ref": "#/$defs/nonNegativeIntegerMap" }, "startupScan": { "type": "boolean" }, "truncated": { "type": "boolean" } }
+    },
+    "capability": {
+      "type": "object", "additionalProperties": true, "required": ["supported", "reason"],
+      "properties": { "supported": { "type": "boolean" }, "reason": { "$ref": "#/$defs/nullableString" } }
+    },
+    "message": {
+      "type": "object", "additionalProperties": true, "required": ["scope", "code", "message"],
+      "properties": { "scope": { "type": "string", "maxLength": 256 }, "entityId": { "$ref": "#/$defs/nullableString" }, "code": { "type": "string", "maxLength": 256 }, "message": { "type": "string", "maxLength": 8192 } }
+    }
+  }
+}

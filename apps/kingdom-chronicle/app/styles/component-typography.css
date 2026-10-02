@@ -1,0 +1,35 @@
+/* Player-facing labels use one quiet, readable voice instead of developer-style chrome. */
+.metric-row span,
+.section-title > span,
+.build-head b,
+.request > span,
+.care-summary span,
+.status-list b,
+.benefit-list b,
+.forecast-banner span,
+.readiness-score span,
+.defense-total span,
+.production-kills span,
+.defense-breakdown span,
+.defense-entities small,
+.livestock-hut-heading b,
+.livestock-hut-meta,
+.stat-grid span,
+.production-grid span,
+.production-grid strong small,
+.food-runway > div span,
+.food-runway dt,
+.stock-summary span,
+.stock-search span,
+th,
+td::before {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 10px;
+  letter-spacing: .025em;
+  text-transform: none !important;
+}
+.defense-total b,
+.source-badge,
+.stock-list small { font-family: Inter, ui-sans-serif, system-ui, sans-serif !important; font-size: 9px; }
+.section, .side-section { border-top-width: 2px; }
+.context, .capability-note, .coverage-warning, .food-note, .stock-note { line-height: 1.5; }

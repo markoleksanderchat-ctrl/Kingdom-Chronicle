@@ -1,0 +1,9 @@
+{
+  "policyVersion": 1,
+  "defaultClassification": ["producer-observed"],
+  "rules": [
+    { "paths": ["/**"], "derive": ["required-or-optional", "nullable-from-schema", "additive-from-schema", "bounded-from-schema"] },
+    { "paths": ["/generatedAt", "/trigger", "/fingerprint", "/summary/**", "/recentStatistics/**", "/defenseStatistics/**", "/foodSupply/**", "/stockLedger/**"], "add": ["locally-derived"] },
+    { "paths": ["/world/saveName", "/world/worldId", "/colony/ownerUuid", "/colony/ownerName", "/citizens/*/uuid", "/citizens/*/name", "/citizens/*/currentPosition", "/citizens/*/lastKnownPosition"], "add": ["sensitive"] }
+  ]
+}

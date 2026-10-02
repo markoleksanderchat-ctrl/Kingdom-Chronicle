@@ -1,0 +1,8 @@
+body {
+  background: var(--desktop-canvas);
+  font-family: Inter, "Segoe UI Variable Text", "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+button { font: inherit; }
+

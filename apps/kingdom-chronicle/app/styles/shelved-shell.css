@@ -1,0 +1,11 @@
+.shelved-site { min-height: 100vh; width: min(720px, 100%); display: grid; align-content: center; justify-items: start; gap: 16px; padding-block: 72px; }
+.shelved-site::before { content: ""; position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at 70% 20%, rgba(184, 138, 43, .12), transparent 34%), linear-gradient(135deg, #eee9df, #f8f5ed); }
+.shelved-mark { width: 64px; height: 64px; display: grid; place-items: center; color: #173e36; background: #d9b35a; border: 6px solid #173e36; border-radius: 12px; font: 800 18px Georgia, serif; box-shadow: 0 12px 30px rgba(23, 62, 54, .14); }
+.shelved-site h1 { max-width: 650px; margin: 0; color: #173e36; font: 700 clamp(40px, 8vw, 68px)/.98 "Iowan Old Style", "Palatino Linotype", Georgia, serif; letter-spacing: -.045em; }
+.shelved-site > p:not(.kicker) { max-width: 620px; margin: 0; color: #52615a; font-size: 17px; line-height: 1.7; }
+.shelved-status { display: flex; align-items: center; gap: 12px; margin-top: 16px; padding: 13px 16px; background: rgba(255, 253, 248, .78); border: 1px solid #d8d0c1; border-radius: 10px; box-shadow: var(--shadow); }
+.shelved-status > span { width: 10px; height: 10px; background: #356a59; border-radius: 50%; box-shadow: 0 0 0 5px rgba(53, 106, 89, .12); }
+.shelved-status strong, .shelved-status small { display: block; }
+.shelved-status strong { color: #28473d; }
+.shelved-status small { color: #69756f; }
+

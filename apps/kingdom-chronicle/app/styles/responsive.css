@@ -1,0 +1,115 @@
+@media (max-width: 1050px) {
+  .topbar { flex-wrap: wrap; padding-block: 14px; }
+  .view-preference { width: 100%; grid-template-columns: auto minmax(0, 1fr); align-items: center; }
+  .view-options { width: 100%; }
+  .metric-row { grid-template-columns: repeat(3, 1fr); }
+  [data-view-mode="simple"] .metric-row { grid-template-columns: repeat(2, 1fr); }
+  .records-grid { grid-template-columns: 1fr 1fr; }
+  .production-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .stock-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 700px) {
+  main { width: 100%; padding-left: max(12px, env(safe-area-inset-left)); padding-right: max(12px, env(safe-area-inset-right)); }
+  .topbar { display: grid; grid-template-columns: 50px minmax(0, 1fr); padding: 15px 0; }
+  .topbar h1 { font-size: 26px; overflow-wrap: anywhere; }
+  .snapshot { width: 100%; margin: 0; }
+  .snapshot { grid-column: 1 / -1; }
+  .view-preference { grid-column: 1 / -1; width: 100%; }
+  .view-preference { grid-template-columns: 1fr; }
+  .view-options { width: 100%; }
+  .mode-banner { align-items: flex-start; margin-top: 8px; }
+  .tab-rail { margin-inline: -12px; padding: 8px 12px; overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-width: none; }
+  .tab-rail::-webkit-scrollbar { display: none; }
+  .tab-list { width: max-content; display: flex; gap: 5px; }
+  .tab-list button { min-width: 108px; min-height: 46px; padding-inline: 11px; }
+  .tab-swipe-cue { position: sticky; right: 0; display: block; width: max-content; margin: 5px 0 0 auto; padding: 2px 7px; color: #56635d; background: rgba(255, 253, 248, .9); border-radius: 999px; font-size: 8px; font-weight: 700; text-transform: uppercase; pointer-events: none; }
+  .tab-panel { margin-top: 10px; }
+  .panel-grid, .records-grid { grid-template-columns: 1fr; gap: 12px; }
+  #panel-realm .defense-record-section, #panel-realm .raid-section, #panel-realm .environment-section, #panel-realm .livestock-section, #panel-realm .knowledge-section { grid-column: auto; grid-row: auto; }
+  #panel-realm .knowledge-section .benefit-list { grid-template-columns: 1fr; }
+  .food-runway, .food-detail { grid-template-columns: 1fr; }
+  .production-grid { grid-template-columns: 1fr 1fr; }
+  .stock-summary, .stock-list { grid-template-columns: 1fr 1fr; }
+  .stock-search { grid-template-columns: 1fr; }
+  .intro { grid-template-columns: 1fr; gap: 24px; padding: 28px 22px; }
+  .intro h2 { font-size: 29px; }
+  .intro aside { width: 100%; }
+  .metric-row { grid-template-columns: 1fr 1fr; }
+  .build-grid, .building-list { grid-template-columns: 1fr; }
+  .building-summary { grid-template-columns: 1fr 1fr; }
+  .section { padding: 18px; }
+  .attention-citizens { grid-template-columns: 1fr 1fr; }
+  .stock-changes ul { grid-template-columns: 1fr 1fr; }
+  .building-list article { grid-template-columns: 30px minmax(0, 1fr) 40px 86px; }
+  .table-wrap { overflow: visible; }
+  table, tbody { display: block; width: 100%; white-space: normal; }
+  thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
+  tbody { display: grid; gap: 8px; }
+  tr { display: grid; grid-template-columns: 1fr 1fr; padding: 12px; background: var(--paper-2); border-left: 3px solid #aaa38a; }
+  td { min-width: 0; display: grid; grid-template-columns: 78px minmax(0, 1fr); gap: 8px; align-items: center; padding: 6px; border: 0; white-space: normal; overflow-wrap: anywhere; }
+  td::before { content: attr(data-label); color: #696757; font: 700 9px Consolas, monospace; text-transform: uppercase; }
+  td:first-child { grid-column: 1 / -1; display: block; padding-bottom: 9px; border-bottom: 1px solid #bdb59d; }
+  td:first-child::before { display: none; }
+  .value-meter { min-width: 0; }
+  .value-meter .meter { width: min(76px, 100%); }
+  .phase-steps span, .building-list strong, .building-list small, .building-list em {
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 430px) {
+  main { padding-left: max(10px, env(safe-area-inset-left)); padding-right: max(10px, env(safe-area-inset-right)); }
+  .topbar { grid-template-columns: 46px minmax(0, 1fr); gap: 11px; }
+  .sigil { width: 46px; height: 46px; }
+  .topbar h1 { font-size: 23px; }
+  .topbar .kicker { font-size: 9px; }
+  .snapshot { padding: 9px 11px; }
+  .view-preference > span { font-size: 8px; }
+  .view-options button { min-height: 58px; padding: 8px; }
+  .view-options small { font-size: 8px; }
+  .mode-banner { display: grid; gap: 2px; }
+  .tab-rail { margin-inline: -10px; padding-inline: 10px; }
+  .tab-list button { min-width: 101px; min-height: 44px; gap: 6px; padding: 8px 9px; font-size: 10px; }
+  .intro { border-left-width: 4px; }
+  .intro h2 { font-size: 27px; }
+  .metric-row article { padding: 13px; }
+  .metric-row strong { font-size: 22px; }
+  .alerts { align-items: stretch; }
+  .alerts strong { flex-basis: 100%; }
+  .section-title { display: grid; gap: 9px; }
+  .section-title > span { justify-self: start; }
+  .build-head { align-items: start; }
+  .build-head b { grid-column: 2 / -1; justify-self: start; }
+  .phase { display: grid; }
+  .phase strong { text-align: left; }
+  .phase-steps span { font-size: 8px; }
+  .build-card dl { grid-template-columns: 1fr; }
+  .building-list article { grid-template-columns: 28px minmax(0, 1fr) 38px; }
+  .building-list em { grid-column: 2 / -1; text-align: left; }
+  tr { grid-template-columns: 1fr; }
+  td, td:first-child { grid-column: 1; }
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+  .care-summary { grid-template-columns: 1fr 1fr 1fr; }
+  .forecast-banner { display: grid; }
+  .forecast-banner span { text-align: left; }
+  .food-runway dl, .food-detail ul { grid-template-columns: 1fr; }
+  .stock-summary, .stock-list { grid-template-columns: 1fr; }
+  .stock-changes ul { grid-template-columns: 1fr; }
+  footer { padding: 18px 0; flex-wrap: wrap; }
+  footer span { order: 3; flex-basis: 100%; }
+}
+
+@media (max-width: 340px) {
+  .metric-row, [data-view-mode="simple"] .metric-row, .building-summary, .stat-grid, .care-summary, .production-grid { grid-template-columns: 1fr; }
+  .phase-steps span { font-size: 7px; }
+  .request div { display: grid; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .tab-panel { animation: none; }
+}
