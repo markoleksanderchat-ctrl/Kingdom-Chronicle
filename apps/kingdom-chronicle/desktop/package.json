@@ -1,7 +1,7 @@
 {
   "name": "kingdom-chronicle-desktop",
   "productName": "Kingdom Chronicle",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "description": "Read-only desktop companion for Colony Bridge and MineColonies",
   "author": "Marko",
   "private": true,

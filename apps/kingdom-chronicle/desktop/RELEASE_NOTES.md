@@ -1,5 +1,11 @@
 # Kingdom Chronicle release notes
 
+## 0.3.10 - Unified app views
+
+- Gives every page one consistent layout, preserving colony data and useful details in compact expandable sections.
+- Removes the view selector and retires its saved preference safely.
+- Improves desktop and narrower-window layouts while preserving the Minecraft-inspired styling.
+
 ## 0.3.9 - Small Updates copy polish
 
 - Labels the current version as "Installed version" in Updates for clearer confirmation after restarting.
