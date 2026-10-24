@@ -4,6 +4,8 @@ Read-only Windows companion for Minecraft and MineColonies. Kingdom Chronicle re
 
 The application, shared dashboard and HTTPS update-host source are in [`apps/kingdom-chronicle`](apps/kingdom-chronicle). The snapshot contracts and example fixtures are in [`contracts/snapshot/v2`](contracts/snapshot/v2). The Minecraft mod is maintained separately.
 
+The current Windows release is **0.3.10**, with unified views across the app. Download the installer from the [latest GitHub release](https://github.com/markoleksanderchat-ctrl/Kingdom-Chronicle/releases/latest), or use the existing in-app update channel. GitHub and the update host distribute the same verified installer and blockmap; published versions are never rebuilt with different bytes.
+
 ## Develop on Windows
 
 Use Node.js 22.13 or newer and pnpm. Install the two locked dependency sets:
